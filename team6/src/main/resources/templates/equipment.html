@@ -16,10 +16,10 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container justify-content-center">
         <h3 style="text-align: center">Equipments listed</h3>
         <div class ="row">      
-        <div class ="col-12">
+        <div class ="col-10 mx-auto">
             <table class="table bg-light">
                 <thead class="thead-dark">
                   <tr>
@@ -59,7 +59,7 @@
     </div>
     <h3 style="text-align: center">List new equipment</h3>
     <div class = "row">
-        <div class ="col-12">
+        <div class ="col-10 mx-auto">
             
             <form>
                 <div class="form-group">
@@ -69,17 +69,20 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="equipmentType">Serial number</label>
-                    <input type="number" class="form-control" id="serialNumber" placeholder="Enter serial number">
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
+                    <label for="equipmentType">Equipment type</label>
+                    <select class="form-control" id="equipmentType">
+                      <option>Excavator</option>
+                      <option>Reach Truck</option>
+                      <option>Forklift</option>
+                      <option>Stacker</option>
+                    </select>
+                  </div>
 
                 <div class="form-group">
-                    <label for="serialNumber">Serial number</label>
-                    <input type="number" class="form-control" id="serialNumber" placeholder="Enter serial number">
+                    <label for="info">Additional information:</label>
+                    <textarea class="form-control" id="info" rows="3"></textarea>
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
-
 
                 
                 <button type="submit" class="btn btn-primary">Submit</button>
