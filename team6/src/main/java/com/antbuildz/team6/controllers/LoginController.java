@@ -1,9 +1,13 @@
 package com.antbuildz.team6.controllers;
 
+import com.antbuildz.team6.models.User;
 import com.antbuildz.team6.repositories.PartnerRepository;
 import com.antbuildz.team6.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,16 +19,21 @@ public class LoginController {
     @Autowired
     private PartnerRepository partnerRepository;
 
-    @GetMapping("/springz")
-    public String loginPage(){
-        //return the webpage for login
-        return "hahaha";
-    }
+//    @GetMapping("/springz")
+//    public String loginPage(){
+//        //return the webpage for login
+//        return "hahaha";
+//    }
+//
+//    @GetMapping("/springer")
+//    public String userLogin(){
+//        //do authentication of user then if it is correct, redirect to the dashboard page, else validation message and remain at same login page
+//        return "weimin nerd";
+//    }
 
-    @GetMapping("/springer")
-    public String userLogin(){
-        //do authentication of user then if it is correct, redirect to the dashboard page, else validation message and remain at same login page
-        return "weimin nerd";
+    @PostMapping("/signup")
+    public User processSignUp(@RequestBody User user) {
+        userRepository.save(user);
+        return user;
     }
-
 }
