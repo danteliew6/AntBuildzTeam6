@@ -1,11 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up!</title>
-</head>
-<body>
-    <p>Enter username</p>
-    <input type = "text" id = "username" placeholder="Enter desired username!">
-</body>
+
+
+<html>
+    <style>
+        .navbar {
+            color: gold
+        }
+        .center_div{
+        margin: 0 auto;
+        width:80% /* value of your choice which suits your alignment */
+        }
+    </style>
+    <head>
+        <meta charset="utf-8" />
+        <meta name ="viewport" content="width=device-width initial-scale=1" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+
+        
+
+        <title>Partner Sign Up Page</title>
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-dark bg-warning">
+            <a class="navbar-brand" href="#">
+              <img src="../static/antbuildz.png" width="200" height="30" alt="">
+            </a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username">
+                <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit" >Login</button>
+            </form>
+          </nav> 
+        <div class="container">
+            <div class ="row">
+            <div class ="col">
+
+            </div>
+            <div class ="col-8 bg-light">
+                <h1 style="text-align: center">Partner Registration</h1>
+                <h4 style="text-align: center">Join us today!!</h4>
+                <h4 style="text-align: center">The Smarter Way of Construction Rental</h4>    
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Companyname" aria-describedby="CompanyName" placeholder="Company Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="CompanyUEN" aria-describedby="Company UEN" placeholder="Company UEN">
+                    </div>
+                    <div class="form-group">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                          <input type="Password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="col">
+                          <input type="Password" class="form-control" placeholder="Confrim Password">
+                        </div>
+                    </div>
+                    <div class="container text-center p-2">
+                    <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+                    </div>
+                </form>
+            </div>
+            <div class ="col">
+
+            </div>
+            </div>
+        </div>
+    </body>
 </html>

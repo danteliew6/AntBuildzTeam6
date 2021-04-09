@@ -18,4 +18,8 @@ public class DashboardController {
         return "signup";
     }
 
+    @GetMapping("/equipment")
+    public String equipmentPage(Model model) {
+        return "equipment";
+    }
 }

@@ -7,10 +7,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="user")
 public class User {
-    @Id
-    private String uenNumber;
 
+    private String uenNumber;
     private String companyName;
+
+    @Id
     private String email;
     private String password;
     private boolean isVerified;
