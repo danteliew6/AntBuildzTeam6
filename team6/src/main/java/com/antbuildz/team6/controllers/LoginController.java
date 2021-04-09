@@ -47,8 +47,8 @@ public class LoginController {
 //        }
 //    }
 
-        @PostMapping("/validateuser")
-        public boolean validateUser(@RequestBody String credentials) {
+    @PostMapping("/validateuser")
+    public boolean validateUser(@RequestBody String credentials) {
 
             JSONObject jsonObject = new JSONObject(credentials);
             Optional<User> user = userRepository.findById(jsonObject.getString("email"));
@@ -59,5 +59,5 @@ public class LoginController {
                 }
             }
             return false;
-        }
+    }
 }
