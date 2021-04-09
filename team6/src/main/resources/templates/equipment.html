@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name ="viewport" content="width=device-width initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+
+    <title>Equipment management page</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-warning">
+        <a class="navbar-brand" href="#">
+          <img src="../static/antbuildz.png" width="200" height="30" alt="">
+        </a>
+      </nav>  
+
+    <div class="container justify-content-center">
+        <h3 style="text-align: center">Equipments listed</h3>
+        <div class ="row">      
+        <div class ="col-10 mx-auto">
+            <table class="table bg-light">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Serial Number</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Listing Date</th>
+                    <th scope="col">Last Maintenance Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Amount Earned</th>
+                  </tr>
+                </thead>
+                <tbody id = "table_body">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Excavator</td>
+                        <td>05/10/2021</td>
+                        <td>03/09/2021</td>
+                        <td><div class="alert alert-success" role="alert">
+                            In-use
+                          </div></td>
+                        <td>$5000</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Excavator</td>
+                        <td>05/10/2021</td>
+                        <td>03/09/2021</td>
+                        <td><div class="alert alert-success" role="alert">
+                            In-use
+                          </div></td>
+                        <td>$5000</td>
+                    </tr>       
+                </tbody>
+            </table>
+        </div>
+   
+    </div>
+    <h3 style="text-align: center">List new equipment</h3>
+    <div class = "row">
+        <div class ="col-10 mx-auto">
+            
+            <form>
+                <div class="form-group">
+                    <label for="serialNumber">Serial number</label>
+                    <input type="number" class="form-control" id="serialNumber" placeholder="Enter serial number">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipmentType">Equipment type</label>
+                    <select class="form-control" id="equipmentType">
+                      <option>Excavator</option>
+                      <option>Reach Truck</option>
+                      <option>Forklift</option>
+                      <option>Stacker</option>
+                    </select>
+                  </div>
+
+                <div class="form-group">
+                    <label for="info">Additional information:</label>
+                    <textarea class="form-control" id="info" rows="3"></textarea>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        
+        
+        </div>
+    </div>
+    </div>
+   
+    
+
+   
+</body>
+
+<script>
+    
+</script>
+</html>
