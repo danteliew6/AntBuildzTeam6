@@ -1,9 +1,7 @@
 package com.antbuildz.team6.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,6 +13,9 @@ public class Request {
 
     @OneToOne
     private User user;
+
+
+
 
     private Date requestOpenDateTime;
     private Date requestCloseDateTime;
@@ -47,7 +48,8 @@ public class Request {
     private Bid acceptedBid; //get the bid that was accepted
 
 
-    private ArrayList<Bid> bidsPlaced; // all bids that were placed for this request
+    // should not have arraylist of bids placed, should use repository if needed
+    private ArrayList<Bid> bidsPlaced = new ArrayList<>();
     private double equipmentVolume; //get volume of equipment user wants to transport
     private double equipmentWeight; // get weight of equipment. together with volume can calculate size of equipment
     private String specialRequest; //optional
@@ -138,6 +140,10 @@ public class Request {
 
     public void setBidsPlaced(ArrayList<Bid> bidsPlaced) {
         this.bidsPlaced = bidsPlaced;
+    }
+
+    public void addBid(Bid bid) {
+        this.bidsPlaced.add(bid);
     }
 
     public double getEquipmentVolume() {

@@ -53,7 +53,11 @@ public class CreateBidController {
         if (existingPartner == null || existingRequest == null) {
             return null;
         }
+
+
         Bid bid = new Bid(existingRequest, existingPartner, price);
+//        existingRequest.setQuantity(5);
+//        requestRepository.save(existingRequest);
         bidRepository.save(bid);
         return bid;
     }

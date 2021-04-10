@@ -1,7 +1,11 @@
 package com.antbuildz.team6.models;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -23,7 +27,9 @@ public class Bid {
     @ManyToOne
     private Partner partner;
     private double price;
-    private Date timestamp;
+
+    @CreationTimestamp
+    private Timestamp timestamp;
 
     public Request getRequest() {
         return request;
@@ -57,11 +63,9 @@ public class Bid {
         this.price = price;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+
 }
