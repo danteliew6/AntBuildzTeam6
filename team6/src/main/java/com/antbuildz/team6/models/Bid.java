@@ -1,20 +1,24 @@
 package com.antbuildz.team6.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "bid")
 public class Bid {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @ManyToOne
     private Request request;
+
+    public Bid(Request request, Partner partner, double price) {
+        this.request = request;
+        this.partner = partner;
+        this.price = price;
+    }
 
     @ManyToOne
     private Partner partner;

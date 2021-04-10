@@ -35,6 +35,14 @@ public class LoginController {
 
     @PostMapping("/signup")
     public User processSignUp(@RequestBody User user) {
+//        {
+//            "uenNumber" : "01283945D",
+//                "companyName" : "Your father company",
+//                "email" : "hohohoho@gmail.com",
+//                "password" : "12345678",
+//                "verified" : true,
+//                "dtype" : "Partner"
+//        }
         userRepository.save(user);
         return user;
     }
