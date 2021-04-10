@@ -19,48 +19,7 @@ import java.util.Optional;
 @RestController
 public class CreateBidController {
 
-    @Autowired
-    BidRepository bidRepository;
 
-    @Autowired
-    PartnerRepository partnerRepository;
-
-    @Autowired
-    RequestRepository requestRepository;
-
-    @PostMapping("/createbid")
-    public Bid createBid(@RequestBody String bidDetails) {
-        // Test input
-//        {
-//            "request_id": 1,
-//                "email": "hoho@gmail.com",
-//                "price" : 70
-//        }
-        JSONObject jsonObject = new JSONObject(bidDetails);
-        Optional<Partner> partner = partnerRepository.findById(jsonObject.getString("email"));
-        Partner existingPartner = null;
-        Request existingRequest = null;
-        if (partner.isPresent()) {
-            existingPartner = partner.get();
-        }
-
-        Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id"));
-        if (request.isPresent()) {
-            existingRequest = request.get();
-        }
-
-        double price = jsonObject.getDouble("price");
-        if (existingPartner == null || existingRequest == null) {
-            return null;
-        }
-
-
-        Bid bid = new Bid(existingRequest, existingPartner, price);
-//        existingRequest.setQuantity(5);
-//        requestRepository.save(existingRequest);
-        bidRepository.save(bid);
-        return bid;
-    }
 
 
 }
