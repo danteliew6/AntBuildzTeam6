@@ -1,7 +1,9 @@
 package com.antbuildz.team6.controllers;
 
 import com.antbuildz.team6.models.User;
+import com.antbuildz.team6.repositories.BidRepository;
 import com.antbuildz.team6.repositories.PartnerRepository;
+import com.antbuildz.team6.repositories.RequestRepository;
 import com.antbuildz.team6.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,12 @@ public class LoginController {
 
     @Autowired
     private PartnerRepository partnerRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
 //    @GetMapping("/springz")
 //    public String loginPage(){
@@ -57,15 +65,41 @@ public class LoginController {
 
     @PostMapping("/validateuser")
     public boolean validateUser(@RequestBody String credentials) {
-
-            JSONObject jsonObject = new JSONObject(credentials);
-            Optional<User> user = userRepository.findById(jsonObject.getString("email"));
-            if (user.isPresent()){
-                User existingUser = user.get();
-                if (existingUser.getPassword().equals(jsonObject.getString("password"))) {
-                    return true;
-                }
+        // need to first establish the the person accessing this page is an admin.
+        JSONObject jsonObject = new JSONObject(credentials);
+        Optional<User> user = userRepository.findById(jsonObject.getString("email"));
+        if (user.isPresent()) {
+            User existingUser = user.get();
+            if (existingUser.getPassword().equals(jsonObject.getString("password"))) {
+                return true;
             }
-            return false;
+        }
+        return false;
     }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestBody String credentials) {
+        // NOT USING ANYMORE
+        // check the user details and establish the following
+        // 1. Is it a partner or a user
+        // 2. Send the relevant details for the respective classes
+        JSONObject jsonObject = new JSONObject(credentials);
+        Optional<User> userOptional = userRepository.findById(jsonObject.getString("email"));
+        // check if the userRepository returns you an object of partner subclass. then we can just check instanceof
+        // if not we can do an if else using userRepository and partnerRepository.
+        if (userOptional.isPresent()) {
+            User existingUser = userOptional.get();
+            if (existingUser.getPassword().equals(jsonObject.getString("password"))) {
+                // LEARN HOW TO ACCESS DTYPE FROM THE USER TABLE TO DETERMINE IF THIS GUY IS USER OR PARTNER
+                // once establish the type, then we will send the user type (User or Partner)
+                // {
+                //      "flag": User or Partner,
+                //  }
+                return null;
+            }
+        }
+        return null;
+
+    }
+
 }

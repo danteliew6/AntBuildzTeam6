@@ -49,6 +49,7 @@ public class Request {
 
 
     // should not have arraylist of bids placed, should use repository if needed
+    // set annotation to ignore this attribute
     private ArrayList<Bid> bidsPlaced = new ArrayList<>();
     private double equipmentVolume; //get volume of equipment user wants to transport
     private double equipmentWeight; // get weight of equipment. together with volume can calculate size of equipment
