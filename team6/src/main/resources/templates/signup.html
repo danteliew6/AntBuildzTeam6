@@ -4,11 +4,48 @@
 <html>
     <style>
         .navbar {
+            z-index: 1;
             color: gold
         }
         .center_div{
-        margin: 0 auto;
-        width:80% /* value of your choice which suits your alignment */
+            margin: 0 auto;
+            width:80% /* value of your choice which suits your alignment */
+        }
+        .sidenav {
+            height: 100%;
+            width: 200px;
+            padding: 20px;
+            position: fixed;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            background-color: black;
+            overflow-x: hidden;
+            padding-top: 100px;
+        }
+    
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+    
+        .main {
+            margin-left: 200px;
+            margin-top: 50px;
+             /* Same as the width of the sidenav */
+             /* font-size: 28px; Increased text to enable scrolling */
+            padding: 0px 10px;
+        }
+        
+        .card-img-top{
+            width:100%;
+            height:auto;
         }
     </style>
     <head>
@@ -28,6 +65,7 @@
         <title>Partner Sign Up Page</title>
 
     </head>
+    
 
     <body>
         <nav class="navbar navbar-dark bg-warning">
@@ -40,6 +78,16 @@
                 <button class="btn btn-primary my-2 my-sm-0" type="submit" >Login</button>
             </form>
           </nav> 
+
+
+        <div class="sidenav">       
+            <a href="#about">Home</a>
+            <a href="#services">Bids</a>
+            <a href="#clients">Result</a>
+            <a href="#contact">Place a Bid</a>
+            <a href="#contact">Sign Out</a>   
+        </div>
+        <div class="main"> 
         <div class="container">
             <div class ="row">
             <div class ="col">
@@ -77,5 +125,6 @@
             </div>
             </div>
         </div>
+    </div>
     </body>
 </html>
