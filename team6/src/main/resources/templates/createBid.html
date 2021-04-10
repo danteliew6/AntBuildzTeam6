@@ -173,4 +173,22 @@
         </div>
         </div>
     </body>
+    <script>
+      function getValues(){
+        var values = document.getElementById('').value;
+        const url = ``;
+        axios.get(url)
+        .then(function (response) {
+          // handle success
+          console.log(response.data);
+          document.getElementById("").innerHTML = "";
+          document.getElementById("").innerHTML = "";
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error.response)
+          console.log(error);
+        })
+      }
+    </script>
 </html>
