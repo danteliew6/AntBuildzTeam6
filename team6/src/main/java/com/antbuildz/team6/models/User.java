@@ -17,10 +17,12 @@ public class User {
     private boolean isVerified;
 
     public User() {
-        this.companyName = "upstart";
     }
 
-
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getUenNumber() {
         return uenNumber;

@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -38,21 +35,28 @@ public class DashboardController {
     private RequestRepository requestRepository;
 
 
+    @GetMapping("/")
+    public String indexPage(Model model) {
+        return "login";
+    }
 
-
-    @GetMapping("/index")
-    public String loginPage(@RequestBody String credentials, Model model){
+    @PostMapping("/index")
+    public String loginPage(@ModelAttribute("credentials") User user, Model model){
         // Will send username and password over from the login fields
         // we will check igf it is user or partner
         // if it is a user then can only use userRepository
-        // if it is a partner then can only use partnerRepositroy
+        // if it is a partner then can only use partnerRepository
         // we will do if else to see if either gives null. if both gives null means user does not exist
         // once we have the user or partner object, we call the respective repository and find all records of requests
         // or bids.
         // then we will use the model to send the data and populate the dashboard.
-        JSONObject jsonObject = new JSONObject(credentials);
-        Optional<User> userOptional = userRepository.findById(jsonObject.getString("email"));
-        Optional<Partner> partnerOptional = partnerRepository.findById(jsonObject.getString("email"));
+        // realised we cant send form data over as json, changed the data processing accordingly. can refer to login.html on how to construct the form data.
+        // made a new constructor for user for this case
+
+//        JSONObject jsonObject = new JSONObject(credentials);
+
+        Optional<User> userOptional = userRepository.findById(user.getEmail());
+        Optional<Partner> partnerOptional = partnerRepository.findById(user.getEmail());
         User existingUser = null;
         Partner existingPartner = null;
         ArrayList<Request> requests = null;
@@ -63,28 +67,26 @@ public class DashboardController {
         }
         else if (userOptional.isPresent()) {
             existingUser = userOptional.get();
-            if (!existingUser.getPassword().equals(jsonObject.getString("password"))) return "login";
+            if (!existingUser.getPassword().equals(user.getPassword())) return "login";
 
             requests = requestRepository.findByEmail(existingUser.getEmail()); //NEED TO FIND HOW TO GET ALL REQUESTS BY USER ID
 
-            double price = jsonObject.getDouble("price");
-            if (existingUser == null || requests == null) {
-                return null;
-            }
+//            if (existingUser == null || requests == null) {
+//                return null;
+//            }
 
             // GO TO REQUEST TABLE AND FIND ALL THE REQUEST ID
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF REQUESTS
 
-            model.addAttribute("Requests", requests);
+            model.addAttribute("requests", requests);
             return "userHome";
         }
         else if (partnerOptional.isPresent()){
             existingPartner = partnerOptional.get();
-            if (!existingPartner.getPassword().equals(jsonObject.getString("password"))) return "login";
+            if (!existingPartner.getPassword().equals(user.getPassword())) return "login";
             bids = bidRepository.findByEmail(existingPartner.getEmail()); // NEED TO FIND HOW TO GET BIDS BY PARTNER ID
 
 
-            double price = jsonObject.getDouble("price");
             if (existingPartner == null || bids == null) {
                 return null;
             }
@@ -92,7 +94,7 @@ public class DashboardController {
             // GO TO BIDS TABLE AND FIND ALL THE BIDS WITH THE REQUEST ID
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF BIDS
 
-            model.addAttribute("Bids", bids);
+            model.addAttribute("bids", bids);
             return "partnerHome";
         } else {
             return "login";

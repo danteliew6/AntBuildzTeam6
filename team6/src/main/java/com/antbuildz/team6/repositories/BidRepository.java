@@ -9,6 +9,6 @@ import java.util.ArrayList;
 
 public interface BidRepository extends CrudRepository<Bid,Integer> {
 
-    @Query("SELECT * FROM Request r WHERE user_id = LOWER(:email)")
+    @Query("SELECT b FROM Bid b WHERE partner_email = LOWER(:email)")
     ArrayList<Bid> findByEmail(@Param("email") String email);
 }

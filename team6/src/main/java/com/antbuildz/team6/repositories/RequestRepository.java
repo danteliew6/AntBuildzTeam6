@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface RequestRepository extends CrudRepository<Request,Integer> {
 
-    @Query("SELECT * FROM Request r WHERE user_id = LOWER(:email)")
+    @Query("SELECT r FROM Request r WHERE user_email = LOWER(:email)")
     ArrayList<Request> findByEmail(@Param("email") String email);
 
 }

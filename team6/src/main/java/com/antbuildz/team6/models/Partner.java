@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 @Entity
 public class Partner extends User {
+    public Partner(String email, String password) {
+        super(email, password);
+    }
+
     private ArrayList<Transport> transports;
 
     public ArrayList<Transport> getTransports() {

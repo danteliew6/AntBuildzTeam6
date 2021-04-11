@@ -88,16 +88,16 @@
 
             </div>
 
-            <div class ="col-11 bg-light" id="bids-placed">
+            <div class ="col-11 bg-light" id="bids-opened">
                 <h2>Bids Opened</h2>
-                <div class="card-deck">
+                <div class="card-deck" >
 
-                    <div class="card text-center" id = "first">
-                    <div class="card-header">Time Left</div>
+                    <div class="card text-center" th:each = "request : ${requests}">
+                    <div class="card-header" >Time Left</div>
                       <img class="card-img-top" src="../static/1.jpg" alt="Card image cap" style="max-height: 18rem;">
                       <div class="card-body text-center">
-                        <h5 class="card-title1">Company Name 1</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
+                        <h5 class="card-title1" th:text = "${request.origin_location}"></h5>
+                        <p class="card-text" th:text = "${request.destination_location}"></p>
                     </div>
                         <div class="card-footer">
                             <button href="#" class="btn btn-primary" onclick="process_selection()" id = "1" value = "Company1">Modifiy Details</button>  
@@ -163,7 +163,6 @@
                             <a href="#" class="btn btn-primary">Modifiy Details</a>  
                             </div>  
                         </div>
-    
                         <div class="card text-center">
                         <div class="card-header">Time Left</div>
                           <img class="card-img-top" src="../static/3.jpg" alt="Card image cap" style="max-height: 18rem;">
