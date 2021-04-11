@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 @Entity
 public class Partner extends User {
+    public Partner() {
+    }
+
     public Partner(String email, String password) {
         super(email, password);
     }
