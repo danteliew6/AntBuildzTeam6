@@ -11,6 +11,7 @@ import com.antbuildz.team6.repositories.UserRepository;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,8 +55,8 @@ public class DashboardController {
         Optional<Partner> partnerOptional = partnerRepository.findById(jsonObject.getString("email"));
         User existingUser = null;
         Partner existingPartner = null;
-        Request existingRequest = null;
-        Bid existingBid = null;
+        ArrayList<Request> requests = null;
+        ArrayList<Bid> bids = null;
         if (!userOptional.isPresent() && !partnerOptional.isPresent()){
             // means this person is not valid, render login page;
             return "login";
@@ -63,46 +64,39 @@ public class DashboardController {
         else if (userOptional.isPresent()) {
             existingUser = userOptional.get();
             if (!existingUser.getPassword().equals(jsonObject.getString("password"))) return "login";
-            Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id")); //NEED TO FIND HOW TO GET ALL REQUESTS BY USER ID
-            if (request.isPresent()) {
-                existingRequest = request.get();
-            }
+
+            requests = requestRepository.findByEmail(existingUser.getEmail()); //NEED TO FIND HOW TO GET ALL REQUESTS BY USER ID
 
             double price = jsonObject.getDouble("price");
-            if (existingUser == null || existingRequest == null) {
+            if (existingUser == null || requests == null) {
                 return null;
             }
 
             // GO TO REQUEST TABLE AND FIND ALL THE REQUEST ID
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF REQUESTS
 
-            //model.addAttribute("Requests", ArrayList<Request> requests)
+            model.addAttribute("Requests", requests);
             return "userHome";
         }
         else if (partnerOptional.isPresent()){
             existingPartner = partnerOptional.get();
             if (!existingPartner.getPassword().equals(jsonObject.getString("password"))) return "login";
-            Optional<Bid> bids = bidRepository.findById(jsonObject.getInt(existingPartner.getEmail())); // NEED TO FIND HOW TO GET BIDS BY PARTNER ID
-            if (bids.isPresent()) {
-                existingBid = bids.get();
-            }
+            bids = bidRepository.findByEmail(existingPartner.getEmail()); // NEED TO FIND HOW TO GET BIDS BY PARTNER ID
+
 
             double price = jsonObject.getDouble("price");
-            if (existingPartner == null || existingBid == null) {
+            if (existingPartner == null || bids == null) {
                 return null;
             }
 
             // GO TO BIDS TABLE AND FIND ALL THE BIDS WITH THE REQUEST ID
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF BIDS
 
-            //model.addAttribute("Bids", ArrayList<Bid> bids)
+            model.addAttribute("Bids", bids);
             return "partnerHome";
+        } else {
+            return "login";
         }
-
-
-
-        model.addAttribute("name", "your mother");
-        return "login";
     }
 
 
