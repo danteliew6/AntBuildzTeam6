@@ -96,8 +96,8 @@
                     <div class="card-header" >Time Left</div>
                       <img class="card-img-top" src="../static/1.jpg" alt="Card image cap" style="max-height: 18rem;">
                       <div class="card-body text-center">
-                        <h5 class="card-title1" th:text = "${request.origin_location}"></h5>
-                        <p class="card-text" th:text = "${request.destination_location}"></p>
+                        <h5 class="card-title1" th:text = "${request.getOriginLocation()}"></h5>
+                        <p class="card-text" th:text = "${request.getDestinationLocation()}"></p>
                     </div>
                         <div class="card-footer">
                             <button href="#" class="btn btn-primary" onclick="process_selection()" id = "1" value = "Company1">Modifiy Details</button>  
