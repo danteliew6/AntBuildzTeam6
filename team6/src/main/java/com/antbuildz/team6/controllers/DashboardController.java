@@ -12,9 +12,11 @@ import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -53,7 +55,6 @@ public class DashboardController {
         // realised we cant send form data over as json, changed the data processing accordingly. can refer to login.html on how to construct the form data.
         // made a new constructor for user for this case
 
-//        JSONObject jsonObject = new JSONObject(credentials);
 
         Optional<User> userOptional = userRepository.findById(user.getEmail());
         Optional<Partner> partnerOptional = partnerRepository.findById(user.getEmail());
@@ -79,6 +80,7 @@ public class DashboardController {
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF REQUESTS
 
             model.addAttribute("requests", requests);
+            model.addAttribute("email", existingUser.getEmail());
             return "userHome";
         }
         else if (partnerOptional.isPresent()){
@@ -95,6 +97,7 @@ public class DashboardController {
             // THEN POPULATE THE MODEL WITH THE ARRAYLIST OF BIDS
 
             model.addAttribute("bids", bids);
+            model.addAttribute("email", existingPartner.getEmail());
             return "partnerHome";
         } else {
             return "login";
@@ -107,6 +110,10 @@ public class DashboardController {
     public String signUpPage(Model model) {
         return "signup";
     }
+
+    @GetMapping("/create_request")
+    public String createRequestPage(Model model){ return "createRequest";}
+
 
 //    @PostMapping("/getBids")
 //    public ArrayList<Bid> getBids(@RequestBody Partner user){

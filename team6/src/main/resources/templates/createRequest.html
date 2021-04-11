@@ -96,73 +96,45 @@
                 <h1 style="text-align: center">Create A Bid</h1>
                 <h4 style="text-align: center">Get your equipments from us</h4>
                 <h4 style="text-align: center">The Smarter Way of Construction Rental</h4>    
-                <form>
-                    <p>requestor details</p>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="Company" aria-describedby="Company-Name" placeholder="Company Name">
-                    </div>
-                    <div class="form-row">
-                      <div class="col-md-4 mb-3">
-                        <label for="validationDefault01">First name</label>
-                        <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="Mark" required>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                        <label for="validationDefault02">Last name</label>
-                        <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="Otto" required>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                        <label for="validationDefaultUsername">Username</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                          </div>
-                          <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required>
-                        </div>
-                      </div>
-                    </div>
-                    <p>Equipments to transport / what,quanitity,capacity</p>
-                    <div class="form-row">
-                        <div class="col-md-9 mb-3">
-                          <label for="validationDefault03">Address</label>
-                          <input type="text" class="form-control" id="validationDefault03" placeholder="Address" required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                          <label for="validationDefault05">Zip</label>
-                          <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
-                        </div>
-                      </div>
-                    <p>location, time to meet</p>
-                    <div class="form-row">
-                      <div class="col-md-9 mb-3">
-                        <label for="validationDefault03">Address</label>
-                        <input type="text" class="form-control" id="validationDefault03" placeholder="Address" required>
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label for="validationDefault05">Zip</label>
-                        <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
-                      </div>
-                    </div>
-                    <p>Duration of bid opening</p>
-                    <div class="form-row">
-                      <div class="col-md-9 mb-3">
-                        <label for="validationDefault03">Address</label>
-                        <input type="text" class="form-control" id="validationDefault03" placeholder="Address" required>
-                      </div>
-                      <div class="col-md-3 mb-3">
-                        <label for="validationDefault05">Zip</label>
-                        <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
-                      </div>
-                    </div>
+                <form method = "POST" th:action = "@{/addrequest}" th:object="${request}" modelattribute = "requestDetails">
+                    <p>Request Details</p>
 
                     <div class="form-group">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                          <label class="form-check-label" for="invalidCheck2">
-                            Agree to terms and conditions
-                          </label>
-                        </div>
+                        <label for="capacity_of_transport">Transport Capacity</label>
+                        <input type="number" class="form-control" id = "capacity_of_transport" name = "capacity_of_transport" placeholder="Transport Capacity Required">
+
+                        <label for="equipment_volume">Equipment Volume</label>
+                        <input type="number" class="form-control" id = "equipment_volume" name = "equipment_volume" placeholder="Equipment Volume Required">
+
+                        <label for="equipment_weight">Transport Capacity</label>
+                        <input type="number" class="form-control" id = "equipment_weight" name = "equipment_weight" placeholder="Equipment Weight Required">
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label for="destination_location">Destination</label>
+                        <input type="text" class="form-control" id="destination_location" name = "destination_location" placeholder="Destination" required>
                       </div>
-                    <button class="btn btn-primary" type="submit">Create Bid</button>
+                      <div class="col-md-4 mb-3">
+                        <label for="origin_location">Origin</label>
+                        <input type="text" class="form-control" id="origin_location" name = "origin_location" placeholder="Origin" required>
+                      </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="rental_start_date_time">Rental Start Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="rental_start_date_time" name = "rental_start_date_time" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="rental_end_date_time">Rental End Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="rental_end_date_time" name = "rental_start_date_time" required>
+                        </div>
+
+
+                      <div class="col-md-3 mb-3">
+                        <label for="special_request">Special Request</label>
+                        <input type="text" class="form-control" id="special_request" name = "special_request" required>
+                      </div>
+                    </div>
+                    <input type = "hidden" id = "email" name = "email">
+                    <button class="btn btn-primary" type="submit">Create Request</button>
 
                   </form>
             </div>
@@ -174,6 +146,7 @@
         </div>
     </body>
     <script>
+       document.getElementById("email").value = sessionStorage.getItem("email");
       function getValues(){
         var values = document.getElementById('').value;
         const url = ``;

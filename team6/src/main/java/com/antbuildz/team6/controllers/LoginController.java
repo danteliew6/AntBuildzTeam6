@@ -29,17 +29,6 @@ public class LoginController {
     @Autowired
     private RequestRepository requestRepository;
 
-//    @GetMapping("/springz")
-//    public String loginPage(){
-//        //return the webpage for login
-//        return "hahaha";
-//    }
-//
-//    @GetMapping("/springer")
-//    public String userLogin(){
-//        //do authentication of user then if it is correct, redirect to the dashboard page, else validation message and remain at same login page
-//        return "weimin nerd";
-//    }
 
     @PostMapping("/signup")
     public User processSignUp(@RequestBody User user) {
@@ -55,13 +44,6 @@ public class LoginController {
         return user;
     }
 
-//    @GetMapping("/login/{username}")
-//    public User validateUser(@PathVariable String username) {
-//        Optional<User> user = userRepository.findById(username);
-//        if (user.isPresent()){
-//            return user.get();
-//        }
-//    }
 
     @PostMapping("/validateuser")
     public boolean validateUser(@RequestBody String credentials) {
@@ -77,29 +59,6 @@ public class LoginController {
         return false;
     }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestBody String credentials) {
-        // NOT USING ANYMORE
-        // check the user details and establish the following
-        // 1. Is it a partner or a user
-        // 2. Send the relevant details for the respective classes
-        JSONObject jsonObject = new JSONObject(credentials);
-        Optional<User> userOptional = userRepository.findById(jsonObject.getString("email"));
-        // check if the userRepository returns you an object of partner subclass. then we can just check instanceof
-        // if not we can do an if else using userRepository and partnerRepository.
-        if (userOptional.isPresent()) {
-            User existingUser = userOptional.get();
-            if (existingUser.getPassword().equals(jsonObject.getString("password"))) {
-                // LEARN HOW TO ACCESS DTYPE FROM THE USER TABLE TO DETERMINE IF THIS GUY IS USER OR PARTNER
-                // once establish the type, then we will send the user type (User or Partner)
-                // {
-                //      "flag": User or Partner,
-                //  }
-                return null;
-            }
-        }
-        return null;
 
-    }
 
 }

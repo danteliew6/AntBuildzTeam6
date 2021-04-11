@@ -54,8 +54,7 @@ public class PlaceBidController {
 
 
         Bid bid = new Bid(existingRequest, existingPartner, price);
-//        existingRequest.addBid(bid);
-//        requestRepository.save(existingRequest);
+
         bidRepository.save(bid);
         return bid;
     }
