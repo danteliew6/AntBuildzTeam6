@@ -87,14 +87,18 @@ public class LoginController {
 
         if (user.isPresent()) {
             User existingUser = user.get();
-            if (existingUser.getPassword().equals(jsonObject.getString("password"))) {
+            if (existingUser.getPassword().equals(jsonObject.getString("password")) && existingUser.isVerified()) {
                 return "user";
             }
         } else if (partnerOptional.isPresent()){
             Partner existingPartner = partnerOptional.get();
-            if (existingPartner.getPassword().equals(jsonObject.getString("password"))) {
+            if (existingPartner.getPassword().equals(jsonObject.getString("password")) && existingPartner.isVerified()) {
                 return "partner";
             }
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "User/Partner not found or not verified"
+            );
         }
 
 
