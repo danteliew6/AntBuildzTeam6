@@ -45,22 +45,6 @@ public class Request {
         this.specialRequest = specialRequest;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Bid getAcceptedBid() {
-        return acceptedBid;
-    }
-
-    public void setAcceptedBid(Bid acceptedBid) {
-        this.acceptedBid = acceptedBid;
-    }
-
     public int getId() {
         return id;
     }
@@ -69,20 +53,20 @@ public class Request {
         this.id = id;
     }
 
-    public Date getRequestOpenDateTime() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getRequestOpenDateTime() {
         return requestOpenDateTime;
     }
 
-    public void setRequestOpenDateTime(Date requestOpenDateTime) {
+    public void setRequestOpenDateTime(LocalDateTime requestOpenDateTime) {
         this.requestOpenDateTime = requestOpenDateTime;
-    }
-
-    public Date getRequestCloseDateTime() {
-        return requestCloseDateTime;
-    }
-
-    public void setRequestCloseDateTime(Date requestCloseDateTime) {
-        this.requestCloseDateTime = requestCloseDateTime;
     }
 
     public int getQuantity() {
@@ -101,11 +85,11 @@ public class Request {
         this.typeOfTransport = typeOfTransport;
     }
 
-    public String getCapacityOfTransport() {
+    public double getCapacityOfTransport() {
         return capacityOfTransport;
     }
 
-    public void setCapacityOfTransport(String capacityOfTransport) {
+    public void setCapacityOfTransport(double capacityOfTransport) {
         this.capacityOfTransport = capacityOfTransport;
     }
 
@@ -125,33 +109,21 @@ public class Request {
         this.destinationLocation = destinationLocation;
     }
 
-    public Date getRentalStartDateTime() {
+    public LocalDateTime getRentalStartDateTime() {
         return rentalStartDateTime;
     }
 
-    public void setRentalStartDateTime(Date rentalStartDateTime) {
+    public void setRentalStartDateTime(LocalDateTime rentalStartDateTime) {
         this.rentalStartDateTime = rentalStartDateTime;
     }
 
-    public Date getRentalEndDateTime() {
+    public LocalDateTime getRentalEndDateTime() {
         return rentalEndDateTime;
     }
 
-    public void setRentalEndDateTime(Date rentalEndDateTime) {
+    public void setRentalEndDateTime(LocalDateTime rentalEndDateTime) {
         this.rentalEndDateTime = rentalEndDateTime;
     }
-
-//    public ArrayList<Bid> getBidsPlaced() {
-//        return bidsPlaced;
-//    }
-//
-//    public void setBidsPlaced(ArrayList<Bid> bidsPlaced) {
-//        this.bidsPlaced = bidsPlaced;
-//    }
-//
-//    public void addBid(Bid bid) {
-//        this.bidsPlaced.add(bid);
-//    }
 
     public double getEquipmentVolume() {
         return equipmentVolume;
@@ -175,5 +147,13 @@ public class Request {
 
     public void setSpecialRequest(String specialRequest) {
         this.specialRequest = specialRequest;
+    }
+
+    public Bid getAcceptedBid() {
+        return acceptedBid;
+    }
+
+    public void setAcceptedBid(Bid acceptedBid) {
+        this.acceptedBid = acceptedBid;
     }
 }
