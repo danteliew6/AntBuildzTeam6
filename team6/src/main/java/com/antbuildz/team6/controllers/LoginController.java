@@ -72,6 +72,10 @@ public class LoginController {
 
     @PostMapping("/validateuser")
     public String validateUser(@RequestBody String credentials) {
+//        {
+//            "email": "haha@gmail.com",
+//            "password" : "1234567"
+//        }
         // need to first establish the the person accessing this page is an admin.
         JSONObject jsonObject = new JSONObject(credentials);
         Optional<User> user = userRepository.findById(jsonObject.getString("email"));

@@ -2,6 +2,7 @@ package com.antbuildz.team6.models;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,19 +10,40 @@ import java.util.Date;
 @Table(name="request")
 public class Request {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @OneToOne
     private User user;
-
-    private Date requestOpenDateTime;
-    private Date requestCloseDateTime;
+    private LocalDateTime requestOpenDateTime;
     private int quantity;
     private String typeOfTransport; //this one not sure of data type
-    private String capacityOfTransport;
+    private double capacityOfTransport;
     private String originLocation;
     private String destinationLocation;
-    private Date rentalStartDateTime;
+    private LocalDateTime rentalStartDateTime;
+    private LocalDateTime rentalEndDateTime; //optional
+    private double equipmentVolume; //get volume of equipment user wants to transport
+    private double equipmentWeight; // get weight of equipment. together with volume can calculate size of equipment
+    private String specialRequest; //optional
+
+    @OneToOne
+    private Bid acceptedBid; //get the bid that was accepted
+
+    public Request(User user, LocalDateTime requestOpenDateTime, int quantity, String typeOfTransport, double capacityOfTransport, String originLocation, String destinationLocation, LocalDateTime rentalStartDateTime, LocalDateTime rentalEndDateTime, double equipmentVolume, double equipmentWeight, String specialRequest) {
+        this.user = user;
+        this.requestOpenDateTime = requestOpenDateTime;
+        this.quantity = quantity;
+        this.typeOfTransport = typeOfTransport;
+        this.capacityOfTransport = capacityOfTransport;
+        this.originLocation = originLocation;
+        this.destinationLocation = destinationLocation;
+        this.rentalStartDateTime = rentalStartDateTime;
+        this.rentalEndDateTime = rentalEndDateTime;
+        this.equipmentVolume = equipmentVolume;
+        this.equipmentWeight = equipmentWeight;
+        this.specialRequest = specialRequest;
+    }
 
     public User getUser() {
         return user;
@@ -38,19 +60,6 @@ public class Request {
     public void setAcceptedBid(Bid acceptedBid) {
         this.acceptedBid = acceptedBid;
     }
-
-    private Date rentalEndDateTime; //optional
-
-    @OneToOne
-    private Bid acceptedBid; //get the bid that was accepted
-
-
-    // should not have arraylist of bids placed, should use repository if needed
-    // set annotation to ignore this attribute
-    //private ArrayList<Bid> bidsPlaced = new ArrayList<>();
-    private double equipmentVolume; //get volume of equipment user wants to transport
-    private double equipmentWeight; // get weight of equipment. together with volume can calculate size of equipment
-    private String specialRequest; //optional
 
     public int getId() {
         return id;
