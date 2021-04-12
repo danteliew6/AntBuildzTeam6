@@ -24,6 +24,9 @@ public class Bid {
         this.price = price;
     }
 
+    public Bid() {
+    }
+
     @ManyToOne
     private Partner partner;
     private double price;

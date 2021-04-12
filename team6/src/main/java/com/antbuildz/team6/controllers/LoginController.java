@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.json.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
@@ -44,29 +45,32 @@ public class LoginController {
 //                "dtype" : "Partner"
 //        }
         JSONObject jsonObject = new JSONObject(userDetails);
+        User newUser;
         try {
             if (jsonObject.getString("dtype").equals("User")) {
-                userRepository.save(new User(
+                newUser = new User(
                         jsonObject.getString("email"),
                         jsonObject.getString("password"),
                         jsonObject.getString("uenNumber"),
                         jsonObject.getString("companyName")
-                ));
+                );
+                userRepository.save(newUser);
+                return newUser;
             } else {
-                partnerRepository.save(new Partner(
+                newUser = new Partner(
                         jsonObject.getString("email"),
                         jsonObject.getString("password"),
                         jsonObject.getString("uenNumber"),
                         jsonObject.getString("companyName")
-                ));
+                );
+                partnerRepository.save((Partner) newUser);
+                return newUser;
             }
         }  catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Invalid user details"
             );
         }
-
-        return null;
     }
 
 
@@ -99,6 +103,14 @@ public class LoginController {
         return null;
     }
 
+
+    @GetMapping("/users")
+    public ArrayList<User> getAllUsers() {
+        Iterable<User> users = userRepository.findAll();
+        ArrayList<User> userList = new ArrayList<>();
+        for (User user: users) userList.add(user);
+        return userList;
+    }
 
 
 }

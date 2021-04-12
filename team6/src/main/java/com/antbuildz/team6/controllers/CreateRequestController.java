@@ -46,12 +46,23 @@ public class CreateRequestController {
 //            "special_request" : null
 //        }
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm");
+
             JSONObject jsonData = new JSONObject(requestDetails);
             Optional<User> user = userRepository.findById(jsonData.getString("email"));
-            LocalDateTime requestOpenDateTime = LocalDateTime.parse(jsonData.getString("request_open_date_time"), formatter);
-            LocalDateTime rentalStartDateTime = LocalDateTime.parse(jsonData.getString("rental_start_date_time"), formatter);
-            LocalDateTime rentalEndDateTime = LocalDateTime.parse(jsonData.getString("rental_end_date_time"), formatter);
+            LocalDateTime requestOpenDateTime;
+            LocalDateTime rentalStartDateTime;
+            LocalDateTime rentalEndDateTime;
+            try{
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                requestOpenDateTime  = LocalDateTime.parse(jsonData.getString("request_open_date_time"), formatter);
+                rentalStartDateTime = LocalDateTime.parse(jsonData.getString("rental_start_date_time"), formatter);
+                rentalEndDateTime = LocalDateTime.parse(jsonData.getString("rental_end_date_time"), formatter);
+
+            } catch(Exception e){
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Incorrect form details"
+                );
+            }
 
             requestRepository.save(new Request(
                     user.get(),
@@ -72,7 +83,7 @@ public class CreateRequestController {
             return "success";
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Incorrect form details"
+                    HttpStatus.NOT_FOUND, "Incorrect form details"
             );
         }
     }

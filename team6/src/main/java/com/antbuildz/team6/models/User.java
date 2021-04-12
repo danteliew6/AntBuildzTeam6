@@ -24,6 +24,9 @@ public class User {
         this.isVerified = false;
     }
 
+    public User() {
+    }
+
     public String getUenNumber() {
         return uenNumber;
     }

@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name="admin")
 public class Admin {
+    public Admin() {
+    }
+
     @Id
     private String email;
     private String password;

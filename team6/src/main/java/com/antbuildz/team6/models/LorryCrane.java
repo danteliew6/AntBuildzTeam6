@@ -6,4 +6,6 @@ public class LorryCrane extends Transport{
         super(serialNumber, partner, capacity);
     }
 
+    public LorryCrane() {
+    }
 }

@@ -10,6 +10,9 @@ public class Partner extends User {
         super(email, password, uenNumber, companyName);
     }
 
+    public Partner() {
+    }
+
     private ArrayList<Transport> transports;
 
     public ArrayList<Transport> getTransports() {

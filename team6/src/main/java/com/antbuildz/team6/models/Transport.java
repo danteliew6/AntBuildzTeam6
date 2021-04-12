@@ -19,6 +19,9 @@ public class Transport {
         this.capacity = capacity;
     }
 
+    public Transport() {
+    }
+
     public String getSerialNumber() {
         return serialNumber;
     }

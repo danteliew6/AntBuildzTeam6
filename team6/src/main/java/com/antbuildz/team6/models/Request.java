@@ -30,6 +30,9 @@ public class Request {
     @OneToOne
     private Bid acceptedBid; //get the bid that was accepted
 
+    public Request() {
+    }
+
     public Request(User user, LocalDateTime requestOpenDateTime, int quantity, String typeOfTransport, double capacityOfTransport, String originLocation, String destinationLocation, LocalDateTime rentalStartDateTime, LocalDateTime rentalEndDateTime, double equipmentVolume, double equipmentWeight, String specialRequest) {
         this.user = user;
         this.requestOpenDateTime = requestOpenDateTime;
