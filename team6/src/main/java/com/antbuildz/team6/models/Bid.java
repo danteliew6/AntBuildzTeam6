@@ -30,6 +30,7 @@ public class Bid {
     @ManyToOne
     private Partner partner;
     private double price;
+    private Integer isSelected = 0;
 
     @CreationTimestamp
     private Timestamp timestamp;
@@ -70,5 +71,11 @@ public class Bid {
         return timestamp;
     }
 
+    public Integer getIsSelected() {
+        return isSelected;
+    }
 
+    public void setIsSelected(Integer isSelected) {
+        this.isSelected = isSelected;
+    }
 }

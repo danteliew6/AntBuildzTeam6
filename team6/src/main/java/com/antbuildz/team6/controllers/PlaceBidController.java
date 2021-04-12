@@ -8,10 +8,12 @@ import com.antbuildz.team6.repositories.PartnerRepository;
 import com.antbuildz.team6.repositories.RequestRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -49,7 +51,8 @@ public class PlaceBidController {
 
         double price = jsonObject.getDouble("price");
         if (existingPartner == null || existingRequest == null) {
-            return null;
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Request/Partner not found");
         }
 
 

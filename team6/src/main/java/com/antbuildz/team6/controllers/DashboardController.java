@@ -115,44 +115,7 @@ public class DashboardController {
     public String createRequestPage(Model model){ return "createRequest";}
 
 
-//    @PostMapping("/getBids")
-//    public ArrayList<Bid> getBids(@RequestBody Partner user){
-//        // get the user object and then find and return the bids associated with them
-//        JSONObject jsonObject = new JSONObject(user);
-//        Optional<User> userOptional = userRepository.findById(jsonObject.getString("email"));
-//        Optional<Partner> partnerOptional = partnerRepository.findById(jsonObject.getString("email"));
-//        User existingUser = null;
-//        Request existingRequest = null;
-//        if (!userOptional.isPresent() && !partnerOptional.isPresent()){
-//            // means this person is not valid, render login page;
-//            return "login";
-//        }
-//        else if (userOptional.isPresent()) {
-//            existingUser = userOptional.get();
-//        }
-//
-//        Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id"));
-//        if (request.isPresent()) {
-//            existingRequest = request.get();
-//        }
-//
-//        double price = jsonObject.getDouble("price");
-//        if (existingPartner == null || existingRequest == null) {
-//            return null;
-//        }
-//
-//
-//        Bid bid = new Bid(existingRequest, existingPartner, price);
-////        existingRequest.setQuantity(5);
-////        requestRepository.save(existingRequest);
-//        bidRepository.save(bid);
-//        return bid;
-//    }
 
-//    @PostMapping("/getRequest")
-//    public ArrayList<Request> getRequests(@RequestBody User user){
-//
-//    }
 
 
 }

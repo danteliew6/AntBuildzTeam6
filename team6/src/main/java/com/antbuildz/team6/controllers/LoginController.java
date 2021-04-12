@@ -95,12 +95,11 @@ public class LoginController {
             if (existingPartner.getPassword().equals(jsonObject.getString("password"))) {
                 return "partner";
             }
-        } else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "User/Partner not found"
-            );
         }
-        return null;
+
+
+        throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "User/Partner not found");
     }
 
 

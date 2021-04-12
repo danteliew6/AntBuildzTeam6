@@ -1,7 +1,9 @@
 package com.antbuildz.team6.controllers;
 
+import com.antbuildz.team6.models.Bid;
 import com.antbuildz.team6.models.Request;
 import com.antbuildz.team6.models.User;
+import com.antbuildz.team6.repositories.BidRepository;
 import com.antbuildz.team6.repositories.RequestRepository;
 import com.antbuildz.team6.repositories.UserRepository;
 import org.json.JSONObject;
@@ -13,6 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +31,9 @@ public class CreateRequestController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BidRepository bidRepository;
 
     // Request Creation
     // Home page -> new Request page (fill in form details) -> Form post to this route -> redirect back to home page
@@ -88,7 +96,7 @@ public class CreateRequestController {
         }
     }
 
-    // webpage of 1 specific request detail
+    // specific request detail for partner to view
     @GetMapping("/request/{requestId}")
     public Request requestDetails(@PathVariable String requestId) {
         try {
@@ -101,5 +109,51 @@ public class CreateRequestController {
         }
     }
 
+
+    @PostMapping("/selectbid")
+    public boolean selectBid(@RequestBody String jsonString) {
+        JSONObject jsonObject = new JSONObject(jsonString);
+        Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id"));
+        Optional<Bid> bid = bidRepository.findById(jsonObject.getInt("bid_id"));
+        if (!request.isPresent() || !bid.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
+            );
+        }
+        Bid existingBid = bid.get();
+        Request existingRequest = request.get();
+
+        if (existingRequest.getAcceptedBid() != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Request has already been filled"
+            );
+        }
+
+        existingRequest.setAcceptedBid(existingBid);
+        requestRepository.save(existingRequest);
+        return true;
+    }
+
+    @GetMapping("/viewrequest/{request_id}")
+    public Map<String, Object> viewRequest(@PathVariable("request_id") String requestId) {
+
+        Optional<Request> request = requestRepository.findById(Integer.parseInt(requestId));
+
+        if (!request.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
+            );
+        }
+
+        Request existingRequest = request.get();
+
+        ArrayList<Bid> bid = bidRepository.findByRequestId(Integer.parseInt(requestId));
+
+        Map<String, Object> jsonData = new HashMap<>();
+        jsonData.put("request", existingRequest);
+        jsonData.put("bids", bid);
+
+        return jsonData;
+    }
 
 }
