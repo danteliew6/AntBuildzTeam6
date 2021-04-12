@@ -2,6 +2,7 @@ package com.antbuildz.team6.controllers;
 
 import com.antbuildz.team6.models.Request;
 import com.antbuildz.team6.repositories.RequestRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -17,8 +18,11 @@ public class CreateRequestController {
     // Request Creation
     // Home page -> new Request page (fill in form details) -> Form post to this route -> redirect back to home page
     @PostMapping("/addrequest")
-    public String addRequest(@ModelAttribute("requestDetails") Request requestDetails, Model model) {
+    public String addRequest(@RequestBody String requestDetails) {
         try {
+            JSONObject jsonData = new JSONObject(requestDetails);
+
+
             requestRepository.save(requestDetails);
         } catch (Exception e) {
             throw new ResponseStatusException(
