@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name ="viewport" content="width=device-width initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+
+    <title>Request Confirmation</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-warning">
+        <a class="navbar-brand" href="#">
+          <img src="../static/antbuildz.png" width="200" height="30" alt="">
+        </a>
+      </nav>  
+
+      <style>
+        .navbar {
+            z-index: 1;
+            color: gold
+        }
+        .center_div{
+            margin: 0 auto;
+            width:80% /* value of your choice which suits your alignment */
+        }
+        .sidenav {
+            height: 100%;
+            width: 200px;
+            padding: 20px;
+            position: fixed;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            background-color: black;
+            overflow-x: hidden;
+            padding-top: 100px;
+        }
+    
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+    
+        .main {
+            margin-left: 200px;
+            margin-top: 50px;
+             /* Same as the width of the sidenav */
+             /* font-size: 28px; Increased text to enable scrolling */
+            padding: 0px 10px;
+        }
+        
+        .card-img-top{
+            width:100%;
+            height:auto;
+        }
+        
+          
+    </style>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+    </head>
+    
+    <body>
+        <div class="sidenav">       
+            <a href="#about">Home</a>
+            <a href="#services">Bids</a>
+            <a href="#clients">Result</a>
+            <a href="#contact">Place a Bid</a>
+            <a href="#contact">Sign Out</a>   
+        </div>
+<div class="main">
+
+    <div class="container">
+
+       <h4 class = "mt-5" style = "text-align: center;">Congratulations! Your bid has been successfully submitted!</h4>
+       
+       <button type="button" class="btn btn-success mx-auto d-block mt-5" onclick="relocate_home()">Back to home</button>
+    </div>
+   
+</div>
+
+   
+</body>
+
+<script>
+
+    function relocate_home()
+    {
+        location.href = "./userHome.html";
+    } 
+
+    
+</script>
+</html>
