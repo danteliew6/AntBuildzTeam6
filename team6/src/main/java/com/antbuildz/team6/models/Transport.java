@@ -1,18 +1,20 @@
 package com.antbuildz.team6.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "transport")
 public class Transport {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @OneToOne
     private Partner partner;
+
+    public Transport(Partner partner) {
+        this.partner = partner;
+    }
 
     public Integer getId() {
         return id;
