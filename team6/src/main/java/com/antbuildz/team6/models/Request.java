@@ -14,9 +14,6 @@ public class Request {
     @OneToOne
     private User user;
 
-
-
-
     private Date requestOpenDateTime;
     private Date requestCloseDateTime;
     private int quantity;
@@ -50,7 +47,7 @@ public class Request {
 
     // should not have arraylist of bids placed, should use repository if needed
     // set annotation to ignore this attribute
-    private ArrayList<Bid> bidsPlaced = new ArrayList<>();
+    //private ArrayList<Bid> bidsPlaced = new ArrayList<>();
     private double equipmentVolume; //get volume of equipment user wants to transport
     private double equipmentWeight; // get weight of equipment. together with volume can calculate size of equipment
     private String specialRequest; //optional
@@ -135,17 +132,17 @@ public class Request {
         this.rentalEndDateTime = rentalEndDateTime;
     }
 
-    public ArrayList<Bid> getBidsPlaced() {
-        return bidsPlaced;
-    }
-
-    public void setBidsPlaced(ArrayList<Bid> bidsPlaced) {
-        this.bidsPlaced = bidsPlaced;
-    }
-
-    public void addBid(Bid bid) {
-        this.bidsPlaced.add(bid);
-    }
+//    public ArrayList<Bid> getBidsPlaced() {
+//        return bidsPlaced;
+//    }
+//
+//    public void setBidsPlaced(ArrayList<Bid> bidsPlaced) {
+//        this.bidsPlaced = bidsPlaced;
+//    }
+//
+//    public void addBid(Bid bid) {
+//        this.bidsPlaced.add(bid);
+//    }
 
     public double getEquipmentVolume() {
         return equipmentVolume;
