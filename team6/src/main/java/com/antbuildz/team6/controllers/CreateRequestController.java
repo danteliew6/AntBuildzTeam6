@@ -68,20 +68,21 @@ public class CreateRequestController {
                     jsonData.getString("special_request")
 
             ));
+
+            return "success";
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Incorrect form details"
             );
         }
-        return "test";
     }
 
     // webpage of 1 specific request detail
-    @GetMapping("/request/{id}")
-    public String requestDetails(@PathVariable String requestId, Model model) {
+    @GetMapping("/request/{requestId}")
+    public Request requestDetails(@PathVariable String requestId) {
         try {
-            model.addAttribute("request", requestRepository.findById(Integer.parseInt(requestId)));
-            return "request_confirmation"; // Page not done yet.
+            Optional<Request> optionalRequest = requestRepository.findById(Integer.parseInt(requestId));
+            return optionalRequest.get();
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
