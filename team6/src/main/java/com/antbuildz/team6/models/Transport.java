@@ -6,31 +6,38 @@ import javax.persistence.*;
 @Table(name = "transport")
 public class Transport {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String serialNumber;
 
     @OneToOne
     private Partner partner;
 
-    public Transport(Partner partner) {
+    private double capacity;
+
+    public Transport(String serialNumber, Partner partner, double capacity) {
+        this.serialNumber = serialNumber;
         this.partner = partner;
+        this.capacity = capacity;
     }
 
-    public Integer getId() {
-        return id;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
     public Partner getPartner() {
         return partner;
     }
 
+    public double getCapacity() {return capacity;}
+
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSerialNumber(Integer id) {
+        this.serialNumber = serialNumber;
     }
+
+    public void setCapacity() {this.capacity = capacity;}
 
 
 }

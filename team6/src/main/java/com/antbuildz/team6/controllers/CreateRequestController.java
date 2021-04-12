@@ -4,12 +4,11 @@ import com.antbuildz.team6.models.Request;
 import com.antbuildz.team6.repositories.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-@Controller
+@RestController
 public class CreateRequestController {
 
     @Autowired
@@ -28,7 +27,6 @@ public class CreateRequestController {
         }
         return "test";
     }
-
 
     // webpage of 1 specific request detail
     @GetMapping("/request/{id}")
