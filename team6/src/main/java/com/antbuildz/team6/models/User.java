@@ -16,12 +16,12 @@ public class User {
     private String password;
     private boolean isVerified;
 
-    public User() {
-    }
-
-    public User(String email, String password) {
+    public User(String email, String password, String uenNumber, String companyName){
         this.email = email;
         this.password = password;
+        this.uenNumber = uenNumber;
+        this.companyName = companyName;
+        this.isVerified = false;
     }
 
     public String getUenNumber() {
