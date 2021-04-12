@@ -32,18 +32,18 @@ public class CreateRequestController {
     @PostMapping("/addrequest")
     public String addRequest(@RequestBody String requestDetails) {
 //        {
-//         "email" : "haha@gmail.com",
-//            "request_open_date_time": "",
-//            "quantity" : 5,
-//            "type_of_transport" : "LorryCrane",
-//            "capacity_of_transport" : 100,
-//            "origin_location" : "somewhere",
-//            "destination_location" : "there",
-//            "rental_start_date_time" : "",
-//            "rental_end_date_time" : "",
-//            "equipment_volume" : 100,
-//            "equipment_weight" : 100,
-//            "special_request" : null
+//            "email" : "hohoho@gmail.com",
+//                "request_open_date_time": "2021-04-13 14:29",
+//                "quantity" : 5,
+//                "type_of_transport" : "LorryCrane",
+//                "capacity_of_transport" : 100,
+//                "origin_location" : "somewhere",
+//                "destination_location" : "there",
+//                "rental_start_date_time" : "2021-04-13 14:29",
+//                "rental_end_date_time" : "2021-04-13 14:29",
+//                "equipment_volume" : 100,
+//                "equipment_weight" : 100,
+//                "special_request" : "Something i guess"
 //        }
         try {
 
