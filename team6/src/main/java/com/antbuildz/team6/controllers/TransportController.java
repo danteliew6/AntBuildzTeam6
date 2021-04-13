@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +39,8 @@ public class TransportController {
         {   "type": "Lorry Crane",
             "serial_number": "serialNumber",
             "partner_email": "email@email.com",
-            "capacity": "double"
+            "capacity": "double",
+            "listing_date" : "datetime"
         }
          */
 
@@ -50,7 +53,9 @@ public class TransportController {
                 );
             }
             if (jsonObject.getString("type").equals("Lorry Crane")) {
-                LorryCrane lc = new LorryCrane(jsonObject.getString("serial_number"), partner.get(), jsonObject.getDouble("capacity"));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                LocalDateTime listingDate  = LocalDateTime.parse(jsonObject.getString("listing_date"), formatter);
+                LorryCrane lc = new LorryCrane(jsonObject.getString("serial_number"), partner.get(), jsonObject.getDouble("capacity"),listingDate);
                 lorryCraneRepository.save(lc);
                 return lc;
             }
