@@ -26,7 +26,7 @@
 
     
 
-    <body>
+    <body onload = "view_requests()">
         <nav class="navbar navbar-dark bg-warning">
             <a class="navbar-brand" href="#">
               <img src="../static/antbuildz.png" width="200" height="30" alt="">
@@ -203,21 +203,57 @@
     sessionStorage.setItem("email", "[[${email}]]");
     </script>
     <script>
-      function process_selection(){   
+      function view_requests(){   
+        const url = "http://localhost:8080/allopenrequests"
+        axios.get(url)
+            .then(function (response) {
+              requests = response.data
 
-        // axios.post("./placeBid.html", {
-        //       name: document.getElementById("1").value,
-        //     })
-        //     .then(function (response) {
-        //       console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
 
-          sessionStorage.setItem("name", document.getElementById("1").value);
+              for ( i = 1; i <= Object.keys(requests).length; i ++){
 
-          window.location.replace("./placeBid.html");
+                var transport_needed = requests[i]["typeOfTransport"]
+
+                var start = requests[i]["rentalStartDateTime"];
+                var start_date = new Date(start);
+                var start_year = start_date.getFullYear()
+                var start_month = start_date.getMonth()
+                var start_day = start_date.getDate()
+                var start_time = start_date.toLocaleTimeString()
+
+
+
+                console.log(start_year);
+                var end_time = requests[i]["rentalEndDateTime"]
+                var start_location = requests[i]["originLocation"]
+                var end_location = requests[i]["destinationLocation"]
+                var equipment_volume = requests[i]["equipmentVolume"]
+
+                console.log(transport_needed, start_time)
+
+                var str = `<div class="card text-center">
+                        <div class="card-header">Time Left</div>
+                          <img class="card-img-top" src="../static/4.jpg" alt="Card image cap" style="max-height: 18rem;">
+                          <div class="card-body text-center">
+                            <h5 class="card-title">Company Name 1</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
+                        </div>
+                            <div class="card-footer">
+                                <a href="./placeBid.html" class="btn btn-primary">Place Bids</a>  
+                            </div>  
+                        </div>`
+
+
+
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+        //   sessionStorage.setItem("name", document.getElementById("1").value);
+
+        //   window.location.replace("./placeBid.html");
         }
     </script>
 </html>
