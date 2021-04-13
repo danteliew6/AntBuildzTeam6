@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "bid")
 public class Bid {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

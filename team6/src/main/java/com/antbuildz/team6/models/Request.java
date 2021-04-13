@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name="request")
 public class Request {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToOne
