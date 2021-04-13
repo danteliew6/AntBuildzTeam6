@@ -26,7 +26,7 @@
 
     
 
-    <body onload = "view_requests()">
+    <body onload = "view_requests();view_bids()">
         <nav class="navbar navbar-dark bg-warning">
             <a class="navbar-brand" href="#">
               <img src="../static/antbuildz.png" width="200" height="30" alt="">
@@ -80,7 +80,7 @@
                 height:auto;
             }
 
-            #new-bids-box{
+            #box{
                 margin-left: 100px;
                 margin-top: 50px;
                 padding: 10px;
@@ -97,7 +97,7 @@
         </head>
         
         <body>
-            <div class="main">
+        <div class="main">
             <div class="sidenav">       
                 <a href="./partnerHome.html">Home</a>
                 <a href="./equipment.html">Equipment</a>
@@ -107,57 +107,20 @@
             
         <div class="container">
             <div class ="row">
-            <div class ="col">
 
-            </div>
-
-            <div class ="col-11" id="bids-placed">
-                <h2>Bids Placed</h2>
-                <div class="card-deck">
-
-                    <div class="card text-center" id = "first">
-                    <div class="card-header">Time Left</div>
-                      <img class="card-img-top" src="../static/1.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body text-center">
-                        <h5 class="card-title1">Company Name 1</h5>
-                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
-                    </div>
-                        <div class="card-footer">
-                            <button href="#" class="btn btn-primary" onclick="process_selection()" id = "1" value = "Company1">Change Bid</button>  
-                        </div>  
-                    </div>
-
-                    <div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                      <img class="card-img-top" src="../static/2.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body">
-                        <h5 class="card-title">Company Name</h5>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>         
+                <div class ="col-11" id = "box">
+                    <h2>Current placed bids</h2>
+                    <div class="card-columns" id="existing-bids">
+    
+        
+    
                       </div>
-                      <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Change Bid</a>  
-                        </div>  
-                    </div>
-
-                    <div class="card text-center">
-                    <div class="card-header">Time Left</div>
-                      <img class="card-img-top" src="../static/3.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body">
-                        <h5 class="card-title">Company Name</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>    
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Change Bid</a>  
-                    </div>  
-                    </div>
-
-                  </div>
-            
+                </div>
             </div>
 
             <div class ="row">
 
-                <div class ="col-11" id = "new-bids-box">
+                <div class ="col-11" id = "box">
                     <h2>Opened Bids</h2>
                     <div class="card-columns" id="new-bids">
     
@@ -165,7 +128,7 @@
     
                       </div>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
     
@@ -174,7 +137,6 @@
     <script>
       function view_requests(){   
         const url = "http://localhost:8080/allopenrequests"
-        console.log(sessionStorage.getItem("email"));
         axios.get(url)
             .then(function (response) {
               requests = response.data
@@ -238,15 +200,36 @@
         //   
         }
 
-        function process_bid_request(request_id, start_location, end_location){
+      function process_bid_request(request_id, start_location, end_location){
                 
-                sessionStorage.setItem("request_id", request_id);
-                // sessionStorage.setItem("start_location", start_location);
-                // sessionStorage.setItem("end_location", end_location);
-                // sessionStorage.setItem("start_time", start_time);
-                // sessionStorage.setItem("end_time", end_time);
-                window.location.replace("./placeBid.html");
+            sessionStorage.setItem("request_id", request_id);
+            window.location.replace("./placeBid.html");
 
-            };
+        };
+    
+
+      function view_bids(){
+          email = sessionStorage.getItem("email");
+          const url = "http://localhost:8080/viewmybids";
+
+          var obj = new Object();
+          obj.partner_email = email;
+
+  
+          axios.post(url, obj)
+            .then((response) => {
+            
+            var bids = response.data.bids;
+
+            for (each in bids){
+                console.log(bids[each]);
+                request_id = bids[each]["request"]
+                console.log(request_id)
+            }
+
+            }, (error) => {
+            console.log(error);
+            });
+      }
     </script>
 </html>
