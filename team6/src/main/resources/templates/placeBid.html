@@ -200,7 +200,8 @@
             var price = document.getElementById("bid_amount").value;
             obj.request_id = sessionStorage.getItem("request_id");
             obj.price = price
-            obj.email = "hohohoho@gmail.com"
+            console.log(sessionStorage.getItem("email"))
+            obj.email = sessionStorage.getItem("email");
 
             axios.post(url, obj)
                 .then((response) => {

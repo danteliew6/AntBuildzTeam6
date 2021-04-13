@@ -172,11 +172,9 @@
     </body>
 
     <script>
-    sessionStorage.setItem("email", "[[${email}]]");
-    </script>
-    <script>
       function view_requests(){   
         const url = "http://localhost:8080/allopenrequests"
+        console.log(sessionStorage.getItem("email"));
         axios.get(url)
             .then(function (response) {
               requests = response.data

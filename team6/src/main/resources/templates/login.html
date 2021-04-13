@@ -133,19 +133,19 @@
         var obj = new Object();
         obj.password = password;
         obj.email = email;
-
-        axios.post(url, obj)
+        sessionStorage.setItem("email", email);
+        console.log(sessionStorage.getItem("email"));
+        axios.post(url, obj)    
             .then((response) => {
                 if (response){
-
-                   console.log(response["data"]);
-                   sessionStorage.setItem("email", email);
+                   
                    if (response["data"] == "user"){
                     window.location.replace("./userHome.html");
                    } else {
                     window.location.replace("./partnerHome.html");
                    }
                    
+
                 }
             }, (error) => {
             console.log(error);
