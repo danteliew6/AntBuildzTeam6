@@ -98,6 +98,7 @@
                       <th scope="col">Type</th>
                       <th scope="col">Capacity</th>
                       <th scope="col">Date Listed</th>
+                      <th scope="col">Delete Listing</th>
                     </tr>
                     <tbody id = "equipment_body">
                     </tbody>
@@ -155,8 +156,16 @@
 </body>
 
 <script>
+
+
+    var d = new Date();
+    console.log(typeof(d.toISOString()));
+    var datestr =d.toISOString().slice(0, 10);
+    var timestr =d.toISOString().slice(11, 16);
+
     loadTables();
     function loadTables(){
+        console.log(d);
         console.log("running on load!")
         const URL = `http://localhost:8080//gettransport`;
 
@@ -169,12 +178,11 @@
             'Allow-Control-Access-Origin' : "*"
         }})
           .then(function (response) {
-            console.log("Sucess")
             var LorryCrane = response.data["Lorry Crane"];
-            console.log(response.data["Lorry Crane"].length);
-            console.log(typeof(LorryCrane));
+            //console.log(response.data["Lorry Crane"].length);
+            //console.log(typeof(LorryCrane));
             for(var item in LorryCrane){
-                console.log(LorryCrane[item])
+                //console.log(LorryCrane[item])
 
                 var table = document.getElementById("equipment_body");
                 var row = table.insertRow(0);
@@ -182,10 +190,12 @@
                 var Type = row.insertCell(1);
                 var Capacity = row.insertCell(2);
                 var DateListed = row.insertCell(3);
+                var DeleteBtn = row.insertCell(4);
                 SerialNumber.innerHTML = LorryCrane[item]['serialNumber'];
                 Type.innerHTML = "Lorry Crane";
                 Capacity.innerHTML=LorryCrane[item]['capacity'];
-                DateListed.innerHTML="05/03/2020";
+                DateListed.innerHTML=LorryCrane[item]['listingDate'];
+                DeleteBtn.innerHTML=`<button type="button" class="btn btn-danger" id="addTransportBtn" onclick="deleteSerialNum(${LorryCrane[item]['serialNumber']})">Delete</button>`;
             }
 
 
@@ -195,6 +205,34 @@
             console.log(error);
           });
     
+
+    }
+
+
+    function deleteSerialNum(serialNumber){
+        //console.log(serialNumber);
+
+        const URL = `http://localhost:8080/deletetransport/` +serialNumber;
+
+        //console.log(URL);
+        axios.get(URL)
+        .then(function (response) {
+            // handle success
+            console.log("Success")
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log("Error")
+            console.log(error);
+        })
+        .then(function () {
+            console.log("Function ends!")
+            location.reload();
+            // always executed
+        });
+
+
 
     }
 
@@ -209,6 +247,7 @@
         obj.serial_number =serialNumber;
         obj.partner_email =PartnerEmail; //will be via sessions in the future
         obj.capacity = capacity;
+        obj.listing_date =datestr+" "+timestr;
 
         const URL = `http://localhost:8080/addtransport`;
 
@@ -222,6 +261,7 @@
         .then((response) => {
             console.log("Sucess!")
             console.log(response);
+            location.reload();
             }, (error) => {
             console.log("an Error Occured")
             console.log(error);
