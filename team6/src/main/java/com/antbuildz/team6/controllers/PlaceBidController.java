@@ -23,16 +23,16 @@ import java.util.Optional;
 @RestController
 public class PlaceBidController {
     @Autowired
-    BidRepository bidRepository;
+    private BidRepository bidRepository;
 
     @Autowired
-    PartnerRepository partnerRepository;
+    private PartnerRepository partnerRepository;
 
     @Autowired
-    RequestRepository requestRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
-    TransportRepository transportRepository;
+    private TransportRepository transportRepository;
 
     @PostMapping("/placebid")
     public Map<String,Object> placeBid(@RequestBody String bidDetails) {
@@ -40,8 +40,9 @@ public class PlaceBidController {
 //        {
 //            "request_id": 1,
 //            "email": "hoho@gmail.com",
-//            "price" : 70
-//            "transport_serial_num" : "123"
+//            "price" : 70,
+//            "transport_serial_num" : "123",
+//            "bid_id" : 1 <optional>
 //        }
 
         JSONObject jsonObject = new JSONObject(bidDetails);

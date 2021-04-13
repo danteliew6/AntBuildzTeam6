@@ -31,16 +31,16 @@ public class CreateRequestController {
 //        ""
 //    }
     @Autowired
-    RequestRepository requestRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    BidRepository bidRepository;
+    private BidRepository bidRepository;
 
     @Autowired
-    TransportRepository transportRepository;
+    private TransportRepository transportRepository;
 
     // Request Creation
     // Home page -> new Request page (fill in form details) -> Form post to this route -> redirect back to home page
