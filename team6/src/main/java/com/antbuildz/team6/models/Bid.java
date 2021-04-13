@@ -41,11 +41,11 @@ public class Bid {
     public Bid() {
     }
 
-    public Request getRequestId() {
+    public Request getRequest() {
         return request;
     }
 
-    public void setRequestId(Request requestId) {
+    public void setRequest(Request requestId) {
         this.request = request;
     }
 

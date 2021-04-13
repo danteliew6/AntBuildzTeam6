@@ -1,7 +1,12 @@
 package com.antbuildz.team6.models;
 
 import javax.persistence.*;
+<<<<<<< Updated upstream
 import java.time.LocalDateTime;
+=======
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> Stashed changes
 
 @Entity
 @Table(name = "transport")
@@ -45,8 +50,19 @@ public class Transport {
 
     public void setCapacity() {this.capacity = capacity;}
 
+<<<<<<< Updated upstream
     public LocalDateTime getListingDate() {
         return listingDate;
+=======
+    public Map<String, Object> getTransportDetails() {
+        Map<String, Object> transportDetails = new HashMap<>();
+        transportDetails.put("partner_email", partner.getEmail());
+        transportDetails.put("serialNumber", serialNumber);
+        transportDetails.put("capacity", capacity);
+        transportDetails.put("type", null);
+
+        return transportDetails;
+>>>>>>> Stashed changes
     }
 
     public void setListingDate(LocalDateTime listingDate) {
