@@ -91,4 +91,11 @@ public class TransportController {
         }
 
     }
+
+    @GetMapping("/deletetransport/{serialNum}")
+    public boolean deleteTransport(@PathVariable("serialNum") String serialNum){
+        //delets the transport
+        int rows = transportRepository.deleteTransport(serialNum);
+        return rows > 0;
+    }
 }
