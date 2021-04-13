@@ -161,7 +161,7 @@
         const URL = `http://localhost:8080//gettransport`;
 
         var obj = new Object();
-        obj.partner_email = "hohohoho@gmail.com";
+        obj.partner_email = "hohohoho@gmail.com"; // rmb to get via sessions in the future
         obj.transport_type = "Lorry Crane";
 
         axios.post(URL, obj, {headers : {
@@ -207,7 +207,7 @@
         var obj = new Object();
         obj.type = equipmentType;
         obj.serial_number =serialNumber;
-        obj.partner_email =PartnerEmail;
+        obj.partner_email =PartnerEmail; //will be via sessions in the future
         obj.capacity = capacity;
 
         const URL = `http://localhost:8080/addtransport`;
