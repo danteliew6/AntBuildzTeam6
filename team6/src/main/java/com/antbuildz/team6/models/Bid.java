@@ -30,7 +30,7 @@ public class Bid {
     @ManyToOne
     private Partner partner;
     private double price;
-    private Integer isSelected = 0;
+    private Integer isSelected = 0; // 0 means not selected yet, 1 means selected, 2 means rejected
 
     @CreationTimestamp
     private Timestamp timestamp;

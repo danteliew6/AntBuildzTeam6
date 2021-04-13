@@ -132,6 +132,9 @@ public class CreateRequestController {
 
         existingRequest.setAcceptedBid(existingBid);
         requestRepository.save(existingRequest);
+        existingBid.setIsSelected(1);
+        bidRepository.save(existingBid);
+        bidRepository.rejectRemainingBids(jsonObject.getInt("request_id"));
         return true;
     }
 
@@ -153,6 +156,18 @@ public class CreateRequestController {
         Map<String, Object> jsonData = new HashMap<>();
         jsonData.put("request", existingRequest);
         jsonData.put("bids", bid);
+
+        return jsonData;
+    }
+
+    @GetMapping("/allopenrequests")
+    public Map<Integer,Request> getAllOpenRequests(){
+        ArrayList<Request> openRequests = requestRepository.findAllOpenRequests();
+        Map<Integer,Request> jsonData = new HashMap<>();
+        Integer i = 1;
+        for (Request req : openRequests){
+            jsonData.put(i++, req);
+        }
 
         return jsonData;
     }
