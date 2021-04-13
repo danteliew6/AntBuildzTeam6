@@ -5,6 +5,8 @@ import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name="request")
@@ -158,5 +160,24 @@ public class Request {
 
     public void setAcceptedBid(Bid acceptedBid) {
         this.acceptedBid = acceptedBid;
+    }
+
+    public Map<String,Object> getRequestDetails(){
+        Map<String, Object> requestDetails = new HashMap<>();
+        requestDetails.put("request_id",id);
+        requestDetails.put("user", user);
+        requestDetails.put("requestOpenDateTime", requestOpenDateTime);
+        requestDetails.put("quantity" , quantity);
+        requestDetails.put("typeOfTransport" , typeOfTransport);
+        requestDetails.put("capacityOfTransport" , capacityOfTransport);
+        requestDetails.put("originLocation" , originLocation);
+        requestDetails.put("destinationLocation" , destinationLocation);
+        requestDetails.put("rentalStartDateTime" , rentalStartDateTime);
+        requestDetails.put("rentalEndDateTime" , rentalEndDateTime);
+        requestDetails.put("equipmentVolume" , equipmentVolume);
+        requestDetails.put("equipmentWeight" , equipmentWeight);
+        requestDetails.put("specialRequest" , specialRequest);
+        requestDetails.put("acceptedBid", acceptedBid == null ? null : acceptedBid.getId());
+        return requestDetails;
     }
 }

@@ -3,6 +3,8 @@ package com.antbuildz.team6.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name="user")
@@ -65,5 +67,11 @@ public class User {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
+    }
+
+    public Map<String, Object> getUserDetails(){
+        Map<String, Object> userDetails = new HashMap<>();
+        userDetails.put( "email", email);
+        return userDetails;
     }
 }

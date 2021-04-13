@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "bid")
@@ -14,16 +16,11 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer requestId;
 
-    public Bid(Integer requestId, Partner partner, double price) {
-        this.requestId = requestId;
-        this.partner = partner;
-        this.price = price;
-    }
+    @ManyToOne
+    private Request request;
 
-    public Bid() {
-    }
+
 
     @ManyToOne
     private Partner partner;
@@ -33,12 +30,21 @@ public class Bid {
     @CreationTimestamp
     private Timestamp timestamp;
 
-    public Integer getRequestId() {
-        return requestId;
+    public Bid(Request request, Partner partner, double price) {
+        this.request = request;
+        this.partner = partner;
+        this.price = price;
     }
 
-    public void setRequestId(Integer requestId) {
-        this.requestId = requestId;
+    public Bid() {
+    }
+
+    public Request getRequestId() {
+        return request;
+    }
+
+    public void setRequestId(Request requestId) {
+        this.request = request;
     }
 
     public Partner getPartner() {
@@ -75,5 +81,13 @@ public class Bid {
 
     public void setIsSelected(Integer isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public Map<String, Object> getBidDetails(){
+        Map<String, Object> bidDetails = new HashMap<>();
+        bidDetails.put("request",  request.getId());
+        bidDetails.put("partner" , partner.getEmail());
+        bidDetails.put("price" , price);
+        return bidDetails;
     }
 }

@@ -38,7 +38,9 @@ public class PlaceBidController {
 //                "email": "hoho@gmail.com",
 //                "price" : 70
 //        }
+
         JSONObject jsonObject = new JSONObject(bidDetails);
+
         Optional<Partner> partner = partnerRepository.findById(jsonObject.getString("email"));
         Partner existingPartner = null;
         Request existingRequest = null;
@@ -47,18 +49,17 @@ public class PlaceBidController {
         }
 
         Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id"));
-        if (request.isPresent()) {
+        if (request.isPresent() && request.get().getAcceptedBid() == null) {
             existingRequest = request.get();
         }
 
         double price = jsonObject.getDouble("price");
         if (existingPartner == null || existingRequest == null) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Request/Partner not found");
+                    HttpStatus.NOT_FOUND, "Request/Partner not found or Request has been closed");
         }
 
-
-        Bid bid = new Bid(existingRequest.getId(), existingPartner, price);
+        Bid bid = new Bid(existingRequest, existingPartner, price);
 
         bidRepository.save(bid);
         return bid;

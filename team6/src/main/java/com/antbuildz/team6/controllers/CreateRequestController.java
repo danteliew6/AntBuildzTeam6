@@ -99,10 +99,10 @@ public class CreateRequestController {
 
     // specific request detail for partner to view
     @GetMapping("/request/{requestId}")
-    public Request requestDetails(@PathVariable String requestId) {
+    public Map<String,Object> requestDetails(@PathVariable String requestId) {
         try {
             Optional<Request> optionalRequest = requestRepository.findById(Integer.parseInt(requestId));
-            return optionalRequest.get();
+            return optionalRequest.get().getRequestDetails();
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
@@ -140,6 +140,7 @@ public class CreateRequestController {
 
     @GetMapping("/viewrequest/{request_id}")
     public Map<String, Object> viewRequest(@PathVariable("request_id") String requestId) {
+        // for user to see the top 3 bids and select the one they want
 
         Optional<Request> request = requestRepository.findById(Integer.parseInt(requestId));
 
@@ -153,22 +154,34 @@ public class CreateRequestController {
 
         ArrayList<Bid> bid = bidRepository.findByRequestId(Integer.parseInt(requestId));
 
+        // if there is already an accepted bid then the user should not be able to access this page.
+        if(existingRequest.getAcceptedBid() != null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
+            );
+        }
+
+        // return only the relevant details for the bid
+        ArrayList<Map<String,Object>> bidDetails  = new ArrayList<>();
+        for(Bid b: bid){
+            bidDetails.add(b.getBidDetails());
+        }
+
         Map<String, Object> jsonData = new HashMap<>();
-        jsonData.put("request", existingRequest);
-        jsonData.put("bids", bid);
+        jsonData.put("request", existingRequest.getRequestDetails());
+        jsonData.put("bids", bidDetails);
 
         return jsonData;
     }
 
     @GetMapping("/allopenrequests")
-    public Map<Integer,Request> getAllOpenRequests(){
+    public Map<Integer,Map<String, Object>> getAllOpenRequests(){
         ArrayList<Request> openRequests = requestRepository.findAllOpenRequests();
-        Map<Integer,Request> jsonData = new HashMap<>();
+        Map<Integer,Map<String,Object>> jsonData = new HashMap<>();
         Integer i = 1;
         for (Request req : openRequests){
-            jsonData.put(i++, req);
+            jsonData.put(i++, req.getRequestDetails());
         }
-
         return jsonData;
     }
 
