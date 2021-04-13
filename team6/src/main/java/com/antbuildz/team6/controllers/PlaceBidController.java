@@ -35,7 +35,7 @@ public class PlaceBidController {
     TransportRepository transportRepository;
 
     @PostMapping("/placebid")
-    public Bid placeBid(@RequestBody String bidDetails) {
+    public Map<String,Object> placeBid(@RequestBody String bidDetails) {
         // Test input
 //        {
 //            "request_id": 1,
@@ -70,10 +70,17 @@ public class PlaceBidController {
                 HttpStatus.NOT_FOUND, "Request/Partner/Transport not found or Request has been closed");
         }
 
-        Bid bid = new Bid(existingRequest, existingPartner, price, existingTransport.getSerialNumber());
+        Bid bid;
+        if(jsonObject.has("bid_id")){
+          bid = bidRepository.findById(jsonObject.getInt("bid_id")).get();
+          bid.setPrice(price);
+          bid.setTransportSerialNumber(existingTransport.getSerialNumber());
+        }  else {
+            bid = new Bid(existingRequest, existingPartner, price, existingTransport.getSerialNumber());
+        }
 
         bidRepository.save(bid);
-        return bid;
+        return bid.getBidDetails();
     }
 
 
