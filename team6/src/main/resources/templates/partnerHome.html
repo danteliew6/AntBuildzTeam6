@@ -79,6 +79,13 @@
                 width:100%;
                 height:auto;
             }
+
+            #new-bids-box{
+                margin-left: 100px;
+                margin-top: 50px;
+                padding: 10px;
+            }
+
         
             
               
@@ -90,6 +97,7 @@
         </head>
         
         <body>
+            <div class="main">
             <div class="sidenav">       
                 <a href="#about">Home</a>
                 <a href="#services">Bids</a>
@@ -97,7 +105,7 @@
                 <a href="#">Place a Bid</a>
                 <a href="#contact">Sign Out</a>   
             </div>
-            <div class="main">
+            
         <div class="container">
             <div class ="row">
             <div class ="col">
@@ -145,58 +153,23 @@
                     </div>
 
                   </div>
-            </div>
+            
             </div>
 
             <div class ="row">
-                <div class ="col">
-    
-                </div>
-    
-                <div class ="col-11 bg-light">
+
+                <div class ="col-11 bg-light" id = "new-bids-box">
                     <h2>Opened Bids</h2>
-                    <div class="card-deck" id="opened-bids">
+                    <div class="card-columns" id="new-bids">
     
-                        <div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/4.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body text-center">
-                            <h5 class="card-title">Company Name 1</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
-                        </div>
-                            <div class="card-footer">
-                                <a href="./placeBid.html" class="btn btn-primary">Place Bids</a>  
-                            </div>  
-                        </div>
-    
-                        <div class="card text-center">
-                            <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/5.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body">
-                            <h5 class="card-title">Company Name</h5>
-                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>         
-                          </div>
-                          <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Place Bids</a>  
-                            </div>  
-                        </div>
-    
-                        <div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/6.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body">
-                            <h5 class="card-title">Company Name</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>    
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Place Bids</a>  
-                        </div>  
-                        </div>
+        
     
                       </div>
                 </div>
                 </div>
         </div>
+    </div>
+    
     </body>
 
     <script>
@@ -214,36 +187,47 @@
 
                 var transport_needed = requests[i]["typeOfTransport"]
 
+                var special_string = ``;
+
+
                 var start = requests[i]["rentalStartDateTime"];
                 var start_date = new Date(start);
                 var start_year = start_date.getFullYear()
                 var start_month = start_date.getMonth()
                 var start_day = start_date.getDate()
                 var start_time = start_date.toLocaleTimeString()
+                
+                var end = requests[i]["rentalEndDateTime"]
+                var end_date = new Date(end);
+                var end_year = end_date.getFullYear()
+                var end_month = end_date.getMonth()
+                var end_day = end_date.getDate()
+                var end_time = end_date.toLocaleTimeString()
 
-
-
-                console.log(start_year);
-                var end_time = requests[i]["rentalEndDateTime"]
+                var special_request = requests[i]["specialRequest"]
                 var start_location = requests[i]["originLocation"]
                 var end_location = requests[i]["destinationLocation"]
                 var equipment_volume = requests[i]["equipmentVolume"]
 
+                if (special_request != null){
+                    special_string += `<p class="card-text">Special request: ${special_request}</p>`
+                }
+
                 console.log(transport_needed, start_time)
 
-                var str = `<div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/4.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body text-center">
-                            <h5 class="card-title">Company Name 1</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
-                        </div>
-                            <div class="card-footer">
-                                <a href="./placeBid.html" class="btn btn-primary">Place Bids</a>  
-                            </div>  
-                        </div>`
+                var str = ` <div class="card text-center">
+                                <div class="card-header">${transport_needed} needed</div>
+                                <img class="card-img-top" src="../static/4.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                <h5 class="card-title">From ${start_location} to ${end_location}</h5>
+                                <p class="card-text">Rental of equipment needed between ${start_day}/${start_month}/${start_year} at ${start_time} to ${end_day}/${end_month}/${end_year} at ${end_time}</p>  
+                                ${special_string}
+                                <div class="card-footer">
+                                <a href="#" class="btn btn-primary">Place Bid</a>  
+                                </div>
+                            </div>`
 
-
+                document.getElementById("new-bids").innerHTML += str;            
 
               }
             })
