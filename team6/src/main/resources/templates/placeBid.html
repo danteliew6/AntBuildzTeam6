@@ -107,15 +107,20 @@
     <div class = "container text-center">
         <div class = "container" id = "bid">
 
+        </div>
+        <div id = bid_success>
+
+            <form>
+                <div class="form-group">
+                    <input class="form-control form-control-lg col-5 mx-auto" id = "bid_amount" type="text" placeholder="Enter your bid amount" >
+                </div>
+                
+                <button type="button" class="btn btn-success" onclick = "place_bid()">Submit</button>
+            </form>
+
 
         </div>
-        <form>
-            <div class="form-group">
-                <input class="form-control form-control-lg col-5 mx-auto" id = "bid_amount" type="text" placeholder="Enter your bid amount" >
-              </div>
             
-            <button type="button" class="btn btn-success" onclick = "place_bid()">Submit</button>
-        </form>
 
     </div>
 
@@ -200,13 +205,19 @@
 
             axios.post(url, obj)
                 .then((response) => {
-                console.log(response);
+                    if (response){
+                        document.getElementById("bid_success").innerHTML = `<h4>Bid placed successfully</h4><button type="button" class="btn btn-success mt-3" onclick = "back_to_home()">Back to home</button>`
+                    }
+
+
                 }, (error) => {
                 console.log(error);
                 });
-        }
+            }
+    }
 
-
+    function back_to_home(){
+        window.location.replace("./partnerHome.html");
     }
 
   
