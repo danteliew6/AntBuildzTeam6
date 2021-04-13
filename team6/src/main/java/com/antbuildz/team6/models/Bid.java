@@ -14,12 +14,10 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private Integer requestId;
 
-    @ManyToOne
-    private Request request;
-
-    public Bid(Request request, Partner partner, double price) {
-        this.request = request;
+    public Bid(Integer requestId, Partner partner, double price) {
+        this.requestId = requestId;
         this.partner = partner;
         this.price = price;
     }
@@ -35,12 +33,12 @@ public class Bid {
     @CreationTimestamp
     private Timestamp timestamp;
 
-    public Request getRequest() {
-        return request;
+    public Integer getRequestId() {
+        return requestId;
     }
 
-    public void setRequest(Request request) {
-        this.request = request;
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
 
     public Partner getPartner() {
