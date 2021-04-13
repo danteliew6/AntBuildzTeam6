@@ -91,40 +91,20 @@
         <h3 style="text-align: center">Equipments listed</h3>
         <div class ="row">      
         <div class ="col-10 mx-auto">
-            <table class="table bg-light">
+            <table class ="table bg-light">
                 <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">Serial Number</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Listing Date</th>
-                    <th scope="col">Last Maintenance Date</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Amount Earned</th>
-                  </tr>
-                </thead>
-                <tbody id = "table_body">
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Excavator</td>
-                        <td>05/10/2021</td>
-                        <td>03/09/2021</td>
-                        <td><div class="alert alert-success" role="alert">
-                            In-use
-                          </div></td>
-                        <td>$5000</td>
+                      <th scope="col">Serial Number</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Capacity</th>
+                      <th scope="col">Date Listed</th>
                     </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Excavator</td>
-                        <td>05/10/2021</td>
-                        <td>03/09/2021</td>
-                        <td><div class="alert alert-success" role="alert">
-                            In-use
-                          </div></td>
-                        <td>$5000</td>
-                    </tr>       
-                </tbody>
+                    <tbody id = "equipment_body">
+                    </tbody>
+                </thead>
+    
             </table>
+
         </div>
    
     </div>
@@ -146,13 +126,12 @@
                 <div class="form-group">
                     <label for="equipmentType">Equipment type</label>
                     <select class="form-control" id="equipmentType">
-                      <option>Lorry</option>
-                      <option>Crane</option>
+                      <option>Lorry Crane</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="capacity">Serial number</label>
+                    <label for="capacity">Capacity</label>
                     <input type="number" class="form-control" id="capacity" placeholder="Enter the capacity">
                 </div>
 
@@ -176,6 +155,48 @@
 </body>
 
 <script>
+    loadTables();
+    function loadTables(){
+        console.log("running on load!")
+        const URL = `http://localhost:8080//gettransport`;
+
+        var obj = new Object();
+        obj.partner_email = "hohohoho@gmail.com"; // rmb to get via sessions in the future
+        obj.transport_type = "Lorry Crane";
+
+        axios.post(URL, obj, {headers : {
+            "Content-Type" : "application/json",
+            'Allow-Control-Access-Origin' : "*"
+        }})
+          .then(function (response) {
+            console.log("Sucess")
+            var LorryCrane = response.data["Lorry Crane"];
+            console.log(response.data["Lorry Crane"].length);
+            console.log(typeof(LorryCrane));
+            for(var item in LorryCrane){
+                console.log(LorryCrane[item])
+
+                var table = document.getElementById("equipment_body");
+                var row = table.insertRow(0);
+                var SerialNumber = row.insertCell(0);
+                var Type = row.insertCell(1);
+                var Capacity = row.insertCell(2);
+                var DateListed = row.insertCell(3);
+                SerialNumber.innerHTML = LorryCrane[item]['serialNumber'];
+                Type.innerHTML = "Lorry Crane";
+                Capacity.innerHTML=LorryCrane[item]['capacity'];
+                DateListed.innerHTML="05/03/2020";
+            }
+
+
+          })
+          .catch(function (error) {
+            console.log("an Error Occured")
+            console.log(error);
+          });
+    
+
+    }
 
     function addTransport(){
         var serialNumber = document.getElementById("serialNumber").value;
@@ -186,20 +207,23 @@
         var obj = new Object();
         obj.type = equipmentType;
         obj.serial_number =serialNumber;
-        obj.partner_email =PartnerEmail;
+        obj.partner_email =PartnerEmail; //will be via sessions in the future
         obj.capacity = capacity;
 
         const URL = `http://localhost:8080/addtransport`;
 
-        console.log(JSON.stringify(obj))
+        console.log(JSON.stringify(obj));
+        console.log(obj);
 
         axios.post(URL,obj, {headers : {
             "Content-Type" : "application/json",
             'Allow-Control-Access-Origin' : "*"
         }})
         .then((response) => {
+            console.log("Sucess!")
             console.log(response);
             }, (error) => {
+            console.log("an Error Occured")
             console.log(error);
             });
     }
