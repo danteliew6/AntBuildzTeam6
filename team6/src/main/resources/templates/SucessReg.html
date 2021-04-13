@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<style>
+    .navbar {
+        color: gold
+    }
+    .center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+
+<nav class="navbar navbar-dark bg-warning">
+    <a class="navbar-brand" href="#">
+      <img src="../images/antbuildz.png" width="200" height="30" alt="">
+    </a>
+    <form class="form-inline my-2 my-lg-0" method = "POST" th:action="@{/index}" th:object = "${user}" modelAttribute = "credentials">
+        <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" name = "email">
+        <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" name = "password">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit" >Login</button>
+    </form>
+  </nav>
+<body>
+        <div class="row">
+            <div class="col-sm-6">
+                <img src="../images/construction.jpeg" class = "img-responsive" style="float:left"  width = "100%" alt="construction">
+            </div>
+            <div class="col-sm-6 justify-content-center">
+                <h1 class="text-justify text-center" style="margin-top: 80px; padding:20px">Your Account Has Been Sucessfully Registered!</h1>
+                <h3 class="text-justify text-center text-muted" >Do allow our staff 1-2 Days to verifiy the details of the account!</h3>
+                <div class="container-fluid " style="padding: 100px">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+</script>
+</html>
