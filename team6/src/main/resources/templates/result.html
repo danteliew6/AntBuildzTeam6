@@ -6,6 +6,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <style>
@@ -54,7 +55,15 @@
         height:auto;
     }
 
-    
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+
+    #directionsPanel {
+        height: auto;
+        width: auto;
+    }
       
 </style>
 
@@ -97,42 +106,192 @@
             <h1 class="m-5">
                 Winning Bid
             </h1>
-            <h3 class="m-5">
+            <h3 class="m-3">
                 Here is the company that won the bid!
             </h3>
         </div>
         <div class="container p-5">
             <div class="row">
                 <div class="col-lg p-3">
-                        <div class="card" style="width: 500px;">
+                        <div class="card" style="width: 500px; height: auto">
                             <img class="card-img-top" src="../images/construction.jpeg" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">Company</h5>
-                                <p class="card-text">ABC Construction Pte Ltd is a company that rents and delivers various construction equipment to you.</p>
+                                <h5 class="card-title" id="company">Company</h5>
+                                <p class="card-text" id="companydetails">ABC Construction Pte Ltd is a company that rents and delivers various construction equipment to you.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
                 </div>
                 <div class="col-lg p-3">
-                    <div class="card" style="width: 500px; height: 700px">
-                        <img class="card-img-top" src="" alt="Google map image">
+                    <div class="card" style="width: 500px; height: 800px">
                         <div class="card-body">
-                            <h5 class="card-title mb-3">Toa Payoh, Singapore</h5>
-                            <p class="card-text">Distance : 15km</p>
-                            <p class="card-text">Price : $50</p>
+                                <h3>Route Taken</h3>
+                                <!--The div element for the map -->
+                                <div id="map"></div>
+                            
+                                <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+                                <script
+                                  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic&callback=initMap&libraries=&v=weekly"
+                                  async
+                                ></script>
+                            <div class="m-3"></div>
+                            <h5 class="card-title mb-3" id="origin">Origin Location: Singapore</h5>
+                            <h5 class="card-title mb-3" id="destination">Destination Location: Singapore</h5>
+                            <p class="card-text" id="distance">Distance :</p>
+                            <p class="card-text" id="price">Price :</p>
+                            <button id="getdistance">Get distance and price</button>
                         </div>
                     </div>
                 </div>
             </div>
-
+            
         </div>
     </div>
 </body>
 
 
 <script>
+
     function goToSignUp(){
         window.location.replace("/signup")
     }
+
+    window.onload = view_result;
+    window.onload = getDirections;
+
+    document.getElementById("getdistance").addEventListener("click", retrieve_distance);
+    
+    // Plots origin and destination on google map visualisation
+    function getDirections() {
+        event.preventDefault();
+        document.getElementById('map').innerHTML = "";
+
+        queries = {
+            // origin: document.getElementById('origin').value,
+            // destination: document.getElementById('destination').value,
+
+            // Still hardcoded for now, need to retrieve data from database
+            origin: "Toa Payoh", //origin_location
+            destination : "Bishan", // destination_location
+            region: 'SG',
+            travelMode: 'DRIVING'
+        };
+        //const proxyurl = "https://cors-anywhere.herokuapp.com/"
+        var url = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic&callback=initMap";
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                initMap();
+            }
+        }
+        request.open('GET',`${url}`, true);
+        request.send();
+    }
+
+    // Visualises map
+    function initMap() {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        var singapore = new google.maps.LatLng(1.3521, 103.8198);
+        var mapOptions = {
+            zoom:10,
+            center: singapore
+        }
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        directionsRenderer.setMap(map);
+
+        calcRoute(directionsService, directionsRenderer);
+    }
+
+    // Renders map
+    function calcRoute(directionsService, directionsRenderer) {
+        directionsService.route(queries, function(result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            } else {
+                document.getElementById('map').innerHTML = 'No routes were found, please enter a postal code or more specific address.';
+            }
+        });
+    }
+
+    // Retrieves data from database and displays
+    function view_result(){   
+        // no url yet, fake url
+        const url = "http://localhost:8080/XXXXX"
+        axios.get(url)
+            .then(function (response) {
+                requests = response.data
+                
+                // no data yet, fake data
+                var company = requests["company"]
+                var origin_location = requests["originLocation"]
+                var destination_location = requests["destinationLocation"]
+                
+                document.getElementById("company").innerHTML += company;
+                document.getElementById("origin").innerHTML += origin_location;  
+                document.getElementById("destination").innerHTML += destination_location; 
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+    }
+
+    // Sends origin and destination to google maps api and receives distance / price
+     function retrieve_distance(){   
+        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+
+        //hardcoded locations, need to retrieve real locations from data
+        url += "origins=Singapore+Toa+Payoh" //" + origin;
+        url += "&destinations=Singapore+Bishan" //" + destination;
+        url += "&avoid=indoor";
+        url += "&key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic";
+        axios.get(url)
+            .then(function (response) {
+                requests = response.data
+                var distance = requests["rows"][0]["elements"][0]["distance"]["text"];
+                console.log(distance);
+                document.getElementById("distance").innerHTML= "Distance: " + distance;
+                document.getElementById("price").innerHTML= "Price: $" + parseInt(distance) * 3 ;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+//  Parameters needed to call google map distance api
+//  https://maps.googleapis.com/maps/api/distancematrix/json?
+//  origins=
+//  &destinations=
+//  &departure_time=
+//  &key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic
+//  &mode=driving
+//  &avoid=indoor
+
+//     Sample google map distance api response:
+//     {
+//    "destination_addresses" : [ "Jurong West, Singapore" ],
+//    "origin_addresses" : [ "Sentosa, Singapore" ],
+//    "rows" : [
+//       {
+//          "elements" : [
+//             {
+//                "distance" : {
+//                   "text" : "22.5 km",
+//                   "value" : 22496
+//                },
+//                "duration" : {
+//                   "text" : "27 mins",
+//                   "value" : 1619
+//                },
+//                "status" : "OK"
+//             }
+//          ]
+//       }
+//    ],
+//    "status" : "OK"
+// }
+
 </script>
 </html>
