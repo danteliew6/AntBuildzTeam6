@@ -9,13 +9,13 @@ import com.antbuildz.team6.repositories.TransportRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -60,5 +60,30 @@ public class TransportController {
                     HttpStatus.NOT_FOUND, "Invalid Transport Details"
             );
         }
+    }
+
+    @PostMapping("/gettransport")
+    public Map<String,Object> getPartnerTransport(@RequestBody String partnerInfo){
+        // this will return the transports that the partner has. so you can use this to populate the drop down list when the partner
+        // decides which transport to put into the bid
+        /*
+        {
+            "partner_email" : "haha@gmail.com",
+            "transport_type" : "Lorry Crane"
+        }
+         */
+
+        JSONObject jsonObject = new JSONObject(partnerInfo);
+        try{
+            Map<String,Object> partnerTransports = new HashMap<>();
+            ArrayList<Transport> transports = transportRepository.findPartnerTransports(jsonObject.getString("partner_email"));
+            partnerTransports.put(jsonObject.getString("transport_type"),transports);
+            return partnerTransports;
+        } catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Partner Details"
+            );
+        }
+
     }
 }

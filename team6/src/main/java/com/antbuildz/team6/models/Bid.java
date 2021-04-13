@@ -26,14 +26,16 @@ public class Bid {
     private Partner partner;
     private double price;
     private Integer isSelected = 0; // 0 means not selected yet, 1 means selected, 2 means rejected
+    private String transportSerialNumber;
 
     @CreationTimestamp
     private Timestamp timestamp;
 
-    public Bid(Request request, Partner partner, double price) {
+    public Bid(Request request, Partner partner, double price, String transportSerialNumber) {
         this.request = request;
         this.partner = partner;
         this.price = price;
+        this.transportSerialNumber = transportSerialNumber;
     }
 
     public Bid() {
@@ -69,6 +71,14 @@ public class Bid {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getTransportSerialNumber() {
+        return transportSerialNumber;
+    }
+
+    public void setTransportSerialNumber(String transportSerialNumber) {
+        this.transportSerialNumber = transportSerialNumber;
     }
 
     public Timestamp getTimestamp() {
