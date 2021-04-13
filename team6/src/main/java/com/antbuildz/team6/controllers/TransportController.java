@@ -42,7 +42,7 @@ public class TransportController {
          */
 
         JSONObject jsonObject = new JSONObject(transportDetails);
-        //try {
+        try {
             Optional<Partner> partner = partnerRepository.findById(jsonObject.getString("partner_email"));
             if (!partner.isPresent()) {
                 throw new ResponseStatusException(
@@ -55,10 +55,10 @@ public class TransportController {
                 return lc;
             }
             return null;
-//        } catch (Exception e){
-//            throw new ResponseStatusException(
-//                    HttpStatus.NOT_FOUND, "Invalid Transport Details"
-//            );
-//        }
+        } catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Transport Details"
+            );
+        }
     }
 }
