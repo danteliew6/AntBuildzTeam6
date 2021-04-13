@@ -12,12 +12,11 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -68,7 +67,7 @@ public class PlaceBidController {
         double price = jsonObject.getDouble("price");
         if (existingPartner == null || existingRequest == null || existingTransport == null) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Request/Partner/Transport not found or Request has been closed");
+                HttpStatus.NOT_FOUND, "Request/Partner/Transport not found or Request has been closed");
         }
 
         Bid bid = new Bid(existingRequest, existingPartner, price, existingTransport.getSerialNumber());
@@ -76,6 +75,11 @@ public class PlaceBidController {
         bidRepository.save(bid);
         return bid;
     }
+
+
+
+
+
 
 
 }

@@ -22,4 +22,5 @@ public interface BidRepository extends CrudRepository<Bid,Integer> {
     @Query("UPDATE Bid SET is_selected = 2 WHERE request_id = :requestId AND is_selected = 0")
     void rejectRemainingBids(@Param("requestId") Integer requestId);
 
+
 }
