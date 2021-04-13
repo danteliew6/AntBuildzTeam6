@@ -15,70 +15,212 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <title>Equipment management page</title>
+
 </head>
 <body onload = display()>
+
     <nav class="navbar navbar-dark bg-warning">
         <a class="navbar-brand" href="#">
-        <img src="../static/antbuildz.png" width="200" height="30" alt="">
+          <img src="../static/antbuildz.png" width="200" height="30" alt="">
         </a>
-    </nav>  
+      </nav>
+      
+      
+      <style>
+        .navbar {
+            z-index: 1;
+            color: gold
+        }
+        .center_div{
+            margin: 0 auto;
+            width:80% /* value of your choice which suits your alignment */
+        }
+        .sidenav {
+            height: 100%;
+            width: 200px;
+            padding: 20px;
+            position: fixed;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            background-color: black;
+            overflow-x: hidden;
+            padding-top: 100px;
+        }
+    
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+    
+        .main {
+            margin-left: 200px;
+            margin-top: 50px;
+             /* Same as the width of the sidenav */
+             /* font-size: 28px; Increased text to enable scrolling */
+            padding: 0px 10px;
+        }
+        
+        .card-img-top{
+            width:100%;
+            height:auto;
+        }
 
-    <div class = "container">
-        <h2 id = "company"></h2>
-        <form>
-            <div class="form-group">
-                <label for="serialNumber">Serial number</label>
-                <input type="number" class="form-control" id="serialNumber" placeholder="Enter serial number">
-            </div>
+        #new-bids-box{
+            margin-left: 100px;
+            margin-top: 50px;
+            padding: 10px;
+        }
 
-            <div class="form-group">
-                <label for="equipmentType">Equipment type</label>
-                <select class="form-control" id="equipmentType">
-                  <option>Excavator</option>
-                  <option>Reach Truck</option>
-                  <option>Forklift</option>
-                  <option>Stacker</option>
-                </select>
-              </div>
+        #bid {
+            margin-bottom: 30px;
+        }
 
-            <div class="form-group">
-                <label for="info">Additional information:</label>
-                <textarea class="form-control" id="info" rows="3"></textarea>
-                <small id="emailHelp" class="form-text text-muted">List any additional information you might have regarding the equipment</small>
-            </div>
+    
+        
+          
+    </style>
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+    </head>
+    
+    <body>
+        <div class="main">
+        <div class="sidenav">       
+            <a href="#about">Home</a>
+            <a href="#services">Bids</a>
+            <a href="#clients">Result</a>
+            <a href="#">Place a Bid</a>
+            <a href="#contact">Sign Out</a>   
+        </div>  
 
+    
+
+    <div class = "container text-center">
+        <div class = "container" id = "bid">
+
+        </div>
+        <div id = bid_success>
+
+            <form>
+                <div class="form-group">
+                    <input class="form-control form-control-lg col-5 mx-auto" id = "bid_amount" type="text" placeholder="Enter your bid amount" >
+                </div>
+                
+                <button type="button" class="btn btn-success" onclick = "place_bid()">Submit</button>
+            </form>
+
+
+        </div>
             
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
 
     </div>
-
 
 
 
 </body>
 
 <script>
-    function display(){
-        
-        // axios.get("url")
-        //     .then(function (response) {
-        //     // handle success
-        //         console.log(response);
-        //         document.getElementById("company").innerText = response[0];
-        //     })
-        //     .catch(function (error) {
-        //     // handle error
-        //     console.log(error);
+    function display(){   
+        const url = "http://localhost:8080/viewrequest/" + sessionStorage.getItem("request_id");
+        axios.get(url)
+            .then(function (response) {
+                console.log(response);
+                request = response.data["request"]
 
-        //     })
-        //     .then(function () {
-        //     console.log("executed")
-        //     // always executed
-        //     });
+                var transport_needed = request["typeOfTransport"]
+                var str = ``;
 
-        document.getElementById("company").innerText = "Submitting bid for " +sessionStorage.getItem("name");
-  }
+    
+                var special_string = ``
+
+                var start = request["rentalStartDateTime"]
+                var start_date = new Date(start)
+                var start_year = start_date.getFullYear()
+                var start_month = start_date.getMonth()
+                var start_day = start_date.getDate()
+                var start_time = start_date.toLocaleTimeString()
+                
+                var end = request["rentalEndDateTime"]
+                var end_date = new Date(end);
+                var end_year = end_date.getFullYear()
+                var end_month = end_date.getMonth()
+                var end_day = end_date.getDate()
+                var end_time = end_date.toLocaleTimeString()
+
+                var special_request = request["specialRequest"]
+                var start_location = request["originLocation"]
+                var end_location = request["destinationLocation"]
+                var equipment_volume = request["equipmentVolume"]
+                var equipment_weight = request["equipmentWeight"]
+
+
+
+                if (special_request != null){
+                    special_string += `<p class="card-text">Special request: ${special_request}</p>`
+                }
+
+                 str = `<h4>Submitting bid for ${transport_needed}</h4>
+                    <h5>From ${start_location} to ${end_location}</h5>
+                    <p>Rental of equipment needed between ${start_day}/${start_month}/${start_year} at ${start_time} to ${end_day}/${end_month}/${end_year} at ${end_time}</p>  
+                    <p>Equipment volume: ${equipment_volume}</p>
+                    <p>Equipment weight: ${equipment_weight}</p>  
+                    ${special_string}`
+
+                document.getElementById("bid").innerHTML += str;
+
+                
+
+
+    
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        //   
+        }
+
+    function place_bid(){
+
+        var bid_amount =  document.getElementById("bid_amount").value;
+        if (bid_amount <= 0){
+            document.getElementById("bid_amount").value = null;
+            document.getElementById("bid_amount").placeholder = "Invalid amount, please try again"
+        } else {
+
+            const url = `http://localhost:8080/placebid`
+            var obj = new Object();
+            var price = document.getElementById("bid_amount").value;
+            obj.request_id = sessionStorage.getItem("request_id");
+            obj.price = price
+            obj.email = "hohohoho@gmail.com"
+
+            axios.post(url, obj)
+                .then((response) => {
+                    if (response){
+                        document.getElementById("bid_success").innerHTML = `<h4>Bid placed successfully</h4><button type="button" class="btn btn-success mt-3" onclick = "back_to_home()">Back to home</button>`
+                    }
+
+
+                }, (error) => {
+                console.log(error);
+                });
+            }
+    }
+
+    function back_to_home(){
+        window.location.replace("./partnerHome.html");
+    }
+
+  
         
     
 
