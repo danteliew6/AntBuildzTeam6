@@ -11,6 +11,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
 
     <title>Equipment management page</title>
 </head>
@@ -133,6 +134,11 @@
             
             <form>
                 <div class="form-group">
+                    <label for="PartnerEmail">Email</label>
+                    <input type="text" class="form-control" id="PartnerEmail" placeholder="Enter Partner Email">
+                </div>
+
+                <div class="form-group">
                     <label for="serialNumber">Serial number</label>
                     <input type="number" class="form-control" id="serialNumber" placeholder="Enter serial number">
                 </div>
@@ -143,7 +149,12 @@
                       <option>Lorry</option>
                       <option>Crane</option>
                     </select>
-                  </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="capacity">Serial number</label>
+                    <input type="number" class="form-control" id="capacity" placeholder="Enter the capacity">
+                </div>
 
                 <div class="form-group">
                     <label for="info">Additional information:</label>
@@ -151,7 +162,7 @@
                     <small id="emailHelp" class="form-text text-muted">List any additional information you might have regarding the equipment</small>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" id="addTransportBtn" onclick="addTransport()">Submit</button>
             </form>
         
         
@@ -165,6 +176,32 @@
 </body>
 
 <script>
-    
+
+    function addTransport(){
+        var serialNumber = document.getElementById("serialNumber").value;
+        var equipmentType =document.getElementById("equipmentType").value;
+        var PartnerEmail = document.getElementById("PartnerEmail").value;
+        var capacity =document.getElementById("capacity").value;
+
+        var obj = new Object();
+        obj.type = equipmentType;
+        obj.serial_number =serialNumber;
+        obj.partner_email =PartnerEmail;
+        obj.capacity = capacity;
+
+        const URL = `localhost:8080/addtransport`;
+
+        console.log(JSON.stringify(obj))
+
+        axios.post(URL,obj, {headers : {
+            "Content-Type" : "application/json",
+            'Allow-Control-Access-Origin' : "*"
+        }})
+        .then((response) => {
+            console.log(response);
+            }, (error) => {
+            console.log(error);
+            });
+    }
 </script>
 </html>
