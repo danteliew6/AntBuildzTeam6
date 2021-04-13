@@ -3,6 +3,7 @@ package com.antbuildz.team6.controllers;
 import com.antbuildz.team6.models.LorryCrane;
 import com.antbuildz.team6.models.Partner;
 import com.antbuildz.team6.models.Transport;
+import com.antbuildz.team6.repositories.LorryCraneRepository;
 import com.antbuildz.team6.repositories.PartnerRepository;
 import com.antbuildz.team6.repositories.TransportRepository;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @CrossOrigin
@@ -22,6 +24,9 @@ public class TransportController {
 
     @Autowired
     private TransportRepository transportRepository;
+
+    @Autowired
+    private LorryCraneRepository lorryCraneRepository;
 
     @Autowired
     private PartnerRepository partnerRepository;
@@ -37,21 +42,23 @@ public class TransportController {
          */
 
         JSONObject jsonObject = new JSONObject(transportDetails);
-        try {
-            Optional<Partner> partner = partnerRepository.findById(jsonObject.getString("email"));
+        //try {
+            Optional<Partner> partner = partnerRepository.findById(jsonObject.getString("partner_email"));
             if (!partner.isPresent()) {
-                return null;
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR, "Invalid Transport Details"
+                );
             }
             if (jsonObject.getString("type").equals("Lorry Crane")) {
                 LorryCrane lc = new LorryCrane(jsonObject.getString("serial_number"), partner.get(), jsonObject.getDouble("capacity"));
-                transportRepository.save(lc);
+                lorryCraneRepository.save(lc);
                 return lc;
             }
             return null;
-        } catch (Exception e){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Invalid Transport Details"
-            );
-        }
+//        } catch (Exception e){
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "Invalid Transport Details"
+//            );
+//        }
     }
 }
