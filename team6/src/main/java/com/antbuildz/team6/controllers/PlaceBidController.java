@@ -23,25 +23,26 @@ import java.util.Optional;
 @RestController
 public class PlaceBidController {
     @Autowired
-    BidRepository bidRepository;
+    private BidRepository bidRepository;
 
     @Autowired
-    PartnerRepository partnerRepository;
+    private PartnerRepository partnerRepository;
 
     @Autowired
-    RequestRepository requestRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
-    TransportRepository transportRepository;
+    private TransportRepository transportRepository;
 
     @PostMapping("/placebid")
-    public Bid placeBid(@RequestBody String bidDetails) {
+    public Map<String,Object> placeBid(@RequestBody String bidDetails) {
         // Test input
 //        {
 //            "request_id": 1,
 //            "email": "hoho@gmail.com",
-//            "price" : 70
-//            "transport_serial_num" : "123"
+//            "price" : 70,
+//            "transport_serial_num" : "123",
+//            "bid_id" : 1 <optional>
 //        }
 
         JSONObject jsonObject = new JSONObject(bidDetails);
@@ -70,10 +71,17 @@ public class PlaceBidController {
                 HttpStatus.NOT_FOUND, "Request/Partner/Transport not found or Request has been closed");
         }
 
-        Bid bid = new Bid(existingRequest, existingPartner, price, existingTransport.getSerialNumber());
+        Bid bid;
+        if(jsonObject.has("bid_id")){
+          bid = bidRepository.findById(jsonObject.getInt("bid_id")).get();
+          bid.setPrice(price);
+          bid.setTransportSerialNumber(existingTransport.getSerialNumber());
+        }  else {
+            bid = new Bid(existingRequest, existingPartner, price, existingTransport.getSerialNumber());
+        }
 
         bidRepository.save(bid);
-        return bid;
+        return bid.getBidDetails();
     }
 
 
