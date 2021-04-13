@@ -2,9 +2,11 @@ package com.antbuildz.team6.controllers;
 
 import com.antbuildz.team6.models.Bid;
 import com.antbuildz.team6.models.Request;
+import com.antbuildz.team6.models.Transport;
 import com.antbuildz.team6.models.User;
 import com.antbuildz.team6.repositories.BidRepository;
 import com.antbuildz.team6.repositories.RequestRepository;
+import com.antbuildz.team6.repositories.TransportRepository;
 import com.antbuildz.team6.repositories.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,6 +38,9 @@ public class CreateRequestController {
 
     @Autowired
     BidRepository bidRepository;
+
+    @Autowired
+    TransportRepository transportRepository;
 
     // Request Creation
     // Home page -> new Request page (fill in form details) -> Form post to this route -> redirect back to home page
@@ -185,4 +191,33 @@ public class CreateRequestController {
         return jsonData;
     }
 
+
+    @GetMapping("/requestinvoice/{requestId}")
+    public Map<String, Object> generateRequestInvoice(@PathVariable("requestId") Integer requestId) {
+        Optional<Request> optionalRequest = requestRepository.findById(requestId);
+
+        if (!optionalRequest.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Invalid Request or Request ID"
+            );
+        }
+
+        Map<String, Object> requestDetails = optionalRequest.get().getRequestDetails();
+        Bid acceptedBid = optionalRequest.get().getAcceptedBid();
+        User user = (User)requestDetails.get("user");
+        requestDetails.replace("user", user.getEmail());
+        requestDetails.put("partner_email", acceptedBid.getPartner().getEmail());
+        requestDetails.put("price", acceptedBid.getPrice());
+        Optional<Transport> optionalTransport = transportRepository.findById(acceptedBid.getTransportSerialNumber());
+        if (!optionalTransport.isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "No transport found"
+            );
+        }
+        Transport transport = optionalTransport.get();
+        requestDetails.put("transport_details", transport.getTransportDetails());
+
+        return requestDetails;
+
+    }
 }
