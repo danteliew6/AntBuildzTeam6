@@ -77,4 +77,21 @@ public class ViewBidController {
         bidOutDetails.put("bids",bidDetails);
         return bidOutDetails;
     }
+
+    @PostMapping("/viewmyacceptedbids")
+    public Map<Integer,Object> viewMyAcceptedBids(@RequestBody String partnerDetails){
+        /*
+        {
+            "partner_email":"hoho@gmail.com"
+        }
+         */
+        Map<Integer, Object> acceptedBids = new HashMap<>();
+        JSONObject jsonObject = new JSONObject(partnerDetails);
+        ArrayList<Bid> myAcceptedBids = bidRepository.findMyAcceptedBids(jsonObject.getString("partner_email"));
+        int counter = 0;
+        for(Bid b : myAcceptedBids){
+            acceptedBids.put(counter++, b.getBidDetails());
+        }
+        return acceptedBids;
+    }
 }

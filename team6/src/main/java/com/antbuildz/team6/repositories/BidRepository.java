@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public interface BidRepository extends CrudRepository<Bid,Integer> {
@@ -21,6 +22,9 @@ public interface BidRepository extends CrudRepository<Bid,Integer> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Bid SET is_selected = 2 WHERE request_id = :requestId AND is_selected = 0")
     void rejectRemainingBids(@Param("requestId") Integer requestId);
+
+    @Query("SELECT b FROM Bid b WHERE partner_email = LOWER(:email) AND is_selected = 1")
+    ArrayList<Bid> findMyAcceptedBids(@Param("email") String email);
 
 
 }
