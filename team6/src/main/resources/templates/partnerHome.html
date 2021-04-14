@@ -250,7 +250,15 @@
       }
       
       function won_bid_details(request_id){
-         
+         const url = 'localhost:8080/request/' + request_id;
+
+         axios.get(url)
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
       }
 
       
