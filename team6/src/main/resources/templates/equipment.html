@@ -113,10 +113,6 @@
         <div class ="col-10 mx-auto">
             
             <form>
-                <div class="form-group">
-                    <label for="PartnerEmail">Email</label>
-                    <input type="text" class="form-control" id="PartnerEmail" placeholder="Enter Partner Email">
-                </div>
 
                 <div class="form-group">
                     <label for="serialNumber">Serial number</label>
@@ -169,7 +165,7 @@
         const URL = `http://localhost:8080/gettransport`;
 
         var obj = new Object();
-        obj.partner_email = "hohohoho@gmail.com"; // rmb to get via sessions in the future
+        obj.partner_email = sessionStorage.getItem('email'); // rmb to get via sessions in the future
         obj.transport_type = "Lorry Crane";
 
         axios.post(URL, obj, {headers : {
@@ -238,13 +234,12 @@
     function addTransport(){
         var serialNumber = document.getElementById("serialNumber").value;
         var equipmentType =document.getElementById("equipmentType").value;
-        var PartnerEmail = document.getElementById("PartnerEmail").value;
         var capacity =document.getElementById("capacity").value;
 
         var obj = new Object();
         obj.type = equipmentType;
         obj.serial_number =serialNumber;
-        obj.partner_email =PartnerEmail; //will be via sessions in the future
+        obj.partner_email =sessionStorage.getItem('email'); //will be via sessions in the future
         obj.capacity = capacity;
         obj.listing_date =datestr+" "+timestr;
 

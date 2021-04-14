@@ -151,11 +151,11 @@ public class CreateRequestController {
         return true;
     }
 
-    @GetMapping("/viewrequest/{request_id}")
-    public Map<String, Object> viewRequest(@PathVariable("request_id") String requestId) {
+    @GetMapping("/viewrequest/{requestId}")
+    public Map<String, Object> viewRequest(@PathVariable("requestId") Integer requestId) {
         // for user to see the top 3 bids and select the one they want
 
-        Optional<Request> request = requestRepository.findById(Integer.parseInt(requestId));
+        Optional<Request> request = requestRepository.findById(requestId);
 
         if (!request.isPresent()) {
             throw new ResponseStatusException(
@@ -165,7 +165,7 @@ public class CreateRequestController {
 
         Request existingRequest = request.get();
 
-        ArrayList<Bid> bid = bidRepository.findByRequestId(Integer.parseInt(requestId));
+        ArrayList<Bid> bid = bidRepository.findByRequestId(requestId);
 
         // if there is already an accepted bid then the user should not be able to access this page.
         if(existingRequest.getAcceptedBid() != null){

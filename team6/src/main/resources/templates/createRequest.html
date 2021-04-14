@@ -58,7 +58,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
         
 
         <title>Create Bid Page</title>
@@ -167,6 +169,16 @@
     
 
     var obj = new Object();
+    var datestr =date.toISOString().slice(0, 10);
+    var timestr =date.toISOString().slice(11, 16);
+
+
+    var datestr1 =String(rental_start_date_time).slice(0, 10);
+    var timestr1 =rental_start_date_time.slice(11, 16);
+
+    var datestr2 =rental_end_date_time.slice(0, 10);
+    var timestr2 =rental_end_date_time.slice(11, 16);
+    
     obj.request_open_date_time = datestr + " " + timestr;
     obj.email = email;
     obj.capacity_of_transport = capacity_of_transport;
@@ -174,11 +186,11 @@
     obj.equipment_weight = equipment_weight;
     obj.destination_location = destination_location;
     obj.origin_location = origin_location;
-    obj.rental_start_date_time = rental_start_date_time;
-    obj.rental_end_date_time = rental_end_date_time;
+    obj.rental_start_date_time = datestr1+" "+timestr1;
     obj.special_request = special_request;
-    obj.quantity = 1;
+    obj.rental_end_date_time = datestr2+" "+timestr2;
     obj.type_of_transport = "LorryCrane";
+    obj.quantity = "1";
 
     const url = `addrequest`;
 
