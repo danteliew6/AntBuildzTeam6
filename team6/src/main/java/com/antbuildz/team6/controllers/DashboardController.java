@@ -150,4 +150,9 @@ public class DashboardController {
         return "successreg";
     }
 
+    @GetMapping("/placebid")
+    public String placeBid(Model model) {
+        return "placeBid";
+    }
+
 }
