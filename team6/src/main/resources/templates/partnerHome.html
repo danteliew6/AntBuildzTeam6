@@ -29,7 +29,7 @@
     <body onload = "view_requests();view_bids()">
         <nav class="navbar navbar-dark bg-warning">
             <a class="navbar-brand" href="#">
-              <img src="../static/antbuildz.png" width="200" height="30" alt="">
+              <img src="/antbuildz.png" width="200" height="30" alt="">
             </a>
           </nav>
           
@@ -203,7 +203,7 @@
       function process_bid_request(request_id, start_location, end_location){
                 
             sessionStorage.setItem("request_id", request_id);
-            window.location.replace("./placeBid.html");
+            window.location.replace("/placeBid");
 
         };
     

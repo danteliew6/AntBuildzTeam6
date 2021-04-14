@@ -69,10 +69,10 @@
             <a class="navbar-brand" href="#">
               <img src="/antbuildz.png" width="200" height="30" alt="">
             </a>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username">
-                <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit" >Login</button>
+            <form class="form-inline my-2 my-lg-0" method = "POST" th:action="@{/index}" th:object = "${user}" modelAttribute = "credentials">
+                <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" name = "email" id = "login_email">
+                <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" name = "password" id = login_password>
+                <button class="btn btn-primary my-2 my-sm-0" type="button" onclick="process_login()" >Login</button>
             </form>
           </nav> 
 
@@ -127,6 +127,34 @@
     </body>
 
     <script>
+
+        function process_login(){
+            var email = document.getElementById("login_email").value;
+            var password = document.getElementById("login_password").value;
+    
+            const url = `http://localhost:8080/validateuser`
+            var obj = new Object();
+            obj.password = password;
+            obj.email = email;
+            sessionStorage.setItem("email", email);
+            console.log(sessionStorage.getItem("email"));
+            axios.post(url, obj)    
+                .then((response) => {
+                    if (response){
+                       
+                       if (response["data"] == "User"){
+                        window.location.replace("/userHome");
+                       } else {
+                        window.location.replace("/partnerHome");
+                       }
+                       
+    
+                    }
+                }, (error) => {
+                console.log(error);
+            });
+        }
+
 
         function sign_up(){
                 var password = document.getElementById("password1").value;
