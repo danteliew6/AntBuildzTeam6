@@ -130,6 +130,16 @@ public class DashboardController {
         return "logout";
     }
 
+    @GetMapping("/placeBid")
+    public String placeBidPage(Model model) {
+        return "placeBid";
+    }
+
+    @GetMapping("/selectBid")
+    public String selectBidPage(Model model) {
+        return "selectBid";
+    }
+
     @GetMapping("/admin")
     public String adminPage(Model model) {
         return "admin";

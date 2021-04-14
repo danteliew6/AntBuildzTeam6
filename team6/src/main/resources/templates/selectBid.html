@@ -68,7 +68,7 @@
 
     
 
-    <body onload = "view_bids()">
+    <body onload = "view_all_bids(sessionStorage.getItem('selected_request'))">
         <div class="sidenav">       
             <a href="/userHome">Home</a>
             <a href="/create_Request">Create a Request</a>
@@ -83,11 +83,11 @@
           <div class="main">
 
         
-            <div class="container">
+            <div class="container" id = "bidding">
                 <div class ="row">
     
                     <div class ="col-11" id = "box">
-                        <h2>Pending bids for requests</h2>
+                        <h2>Bids for selected request</h2>
                         <div class="card-columns" id="bids">
         
             
@@ -107,39 +107,6 @@
 
 <script>
 
-    
-
-    function view_bids(){
-
-         
-          email = sessionStorage.getItem("email");
-          console.log(email);
-          const url1 = "http://localhost:8080/viewmyrequest";
-
-          var obj = new Object();
-          obj.user_email = email;
-
-  
-          axios.post(url1, obj)
-            .then((response) => {
-                console.log(response)
-            
-                for (each in response.data){
-
-                    var request_id = response.data[each]["request_id"];
-                    console.log(request_id);
-                    view_all_bids(request_id);
-                }
-
-            
-
-            }, (error) => {
-            console.log(error);
-            });
-      
-        
-        //   
-        }
 
         function view_all_bids(request_id){
             const url2 = "http://localhost:8080/viewrequest/" + request_id;
@@ -148,34 +115,30 @@
                 .then(function (response) {
                     var bid = response.data['bids'];
                     console.log(bid.length)
-
-                    if (bid.length == 0){
-                        var str = `<div class="card text-center">
-                                   <div class="card-body">
-                                   <h5 class="card-title">No bids placed for request ${request_id}</h5>
-                                    
-                                    
-
-                                    
-                                  
-                              </div>`
-                              document.getElementById("bids").innerHTML += str;   
-                    } else {
-                        var str = `<div class="card text-center">
-                                   <div class="card-body">
-                                   <h5 class="card-title">You have received ${bid.length} bids for request ${request_id}</h5>
-                                   <button class="btn btn-primary" onclick = "process_bid(${request_id})">Select Request</button>  
-                                    
-                                    
-
-                                    
-                                  
-                              </div>`
-                            document.getElementById("bids").innerHTML += str;   
-
-                    
                         
+                        for (each of bid){
+
+                            console.log(each)
+                            var price = each["price"]
+                            var request = each["request"]
+                            var bid = each["id"]
+                            console.log(price)
+
+                            var str = ` <div class="card text-center">
+                                        <div class="card-body">
+                                        <h5 class="card-title">Bid for request ${request_id}</h5>
+                                        
+                                        <p class="card-text">Amount bidded: ${price} </p>  
+                                        <button class="btn btn-primary" onclick = "process_bid(${request}, ${bid})">Select Bid</button>  
+                                        
+                                        
+                                    </div>`
+
+                        document.getElementById("bids").innerHTML += str;   
+
                     }
+                        
+                    
                     
                 })
                 .catch(function (error) {
@@ -183,10 +146,30 @@
                 });
         }
 
-        function process_bid(request_id){
-            sessionStorage.setItem("selected_request", request_id)
-            window.location.replace("/selectBid");
+        function process_bid(request_id, bid_id){
+            console.log(bid_id, request_id)
+            var obj = new Object();
+            obj.request_id = request_id;
+            obj.bid_id = bid_id;
+
+            const url = `http://localhost:8080/selectbid`
+            axios.post(url, obj)
+
+            .then((response) => {
+                document.getElementById("bidding").innerHTML = `<h3>Your bid selection has been successful!</h3>`
+
+
+            }, (error) => {
+            console.log(error);
+            });
+
+            
+
         }
+
+     
+
+
 
         //   
             

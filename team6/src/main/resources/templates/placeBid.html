@@ -111,6 +111,9 @@
 
             <form>
                 <div class="form-group">
+                    Select vehicle id: <select class="form-control col-5 mx-auto mb-3" id="vehicle_id">
+
+                    </select>
                     <input class="form-control form-control-lg col-5 mx-auto" id = "bid_amount" type="text" placeholder="Enter your bid amount" >
                 </div>
                 
@@ -129,6 +132,8 @@
 
 <script>
     function display(){   
+
+        retrieve_vehicle();
         const url = "http://localhost:8080/viewrequest/" + sessionStorage.getItem("request_id");
         axios.get(url)
             .then(function (response) {
@@ -189,6 +194,10 @@
 
     function place_bid(){
 
+        
+
+
+
         var bid_amount =  document.getElementById("bid_amount").value;
         if (bid_amount <= 0){
             document.getElementById("bid_amount").value = null;
@@ -202,6 +211,8 @@
             obj.price = price
             console.log(sessionStorage.getItem("email"))
             obj.email = sessionStorage.getItem("email");
+            console.log(document.getElementById("vehicle_id").value);
+            obj.transport_serial_num = document.getElementById("vehicle_id").value;
 
             axios.post(url, obj)
                 .then((response) => {
@@ -214,6 +225,39 @@
                 console.log(error);
                 });
             }
+    }
+
+    function retrieve_vehicle(){
+        const url = `http://localhost:8080/gettransport`;
+
+        console.log(sessionStorage.getItem("email"));
+
+        var obj = new Object()
+
+        obj.partner_email = sessionStorage.getItem("email");
+        obj.transport_type = "Lorry Crane";
+
+        axios.post(url, obj)
+        .then((response) => {
+            if (response){
+                console.log(response)
+                for (each in response.data["Lorry Crane"]){
+                    vehicle_id = response.data["Lorry Crane"][each]["serialNumber"];
+                    str = `<option>${vehicle_id}</option>`
+                    document.getElementById("vehicle_id").innerHTML += str;
+                }
+               
+            }
+
+
+        }, (error) => {
+        console.log(error);
+        });
+
+        
+
+
+        
     }
 
     function back_to_home(){
