@@ -145,4 +145,11 @@ public class DashboardController {
         return "admin";
     }
 
+    @GetMapping("/successreg")
+    public String successPage(Model model) {
+        return "successreg";
+    }
+
+
+
 }

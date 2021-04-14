@@ -28,11 +28,6 @@
     <a class="navbar-brand" href="#">
       <img src="/antbuildz.png" width="200" height="30" alt="">
     </a>
-    <form class="form-inline my-2 my-lg-0" method = "POST" th:action="@{/index}" th:object = "${user}" modelAttribute = "credentials">
-        <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" name = "email">
-        <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password" name = "password">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit" >Login</button>
-    </form>
   </nav>
 <body>
         <div class="row">
