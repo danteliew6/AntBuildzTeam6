@@ -71,13 +71,6 @@
         
           
     </style>
-    
-        <div class="sidenav">       
-            <a href="/partnerHome">Home</a>
-            <a href="/equipment">Equipment</a>
-            <a href="/result">Result</a>
-            <a href="/logout">Sign Out</a>  
-        </div>
 <div class="main">
 
     <div class="container justify-content-center">
@@ -127,6 +120,8 @@
         axios.post(URL, obj)
           .then(function (response) {
             console.log(response);
+            location.reload();
+
           })
           .catch(function (error) {
             console.log(error);
