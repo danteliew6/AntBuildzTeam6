@@ -58,7 +58,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" defer></script>
-
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
         
 
         <title>Create Bid Page</title>
@@ -91,7 +91,7 @@
 
             </div>
             <div class ="col-8 bg-light">
-                <h1 style="text-align: center">Create A Bid</h1>
+                <h1 style="text-align: center">Create A Request</h1>
                 <h4 style="text-align: center">Get your equipments from us</h4>
                 <h4 style="text-align: center">The Smarter Way of Construction Rental</h4>    
                 <form method = "POST" th:action = "@{/addrequest}" th:object="${request}" modelattribute = "requestDetails">
@@ -116,6 +116,7 @@
                         <label for="origin_location">Origin</label>
                         <input type="text" class="form-control" id="origin_location" name = "origin_location" placeholder="Origin" required>
                       </div>
+
                         <div class="col-md-4 mb-3">
                             <label for="rental_start_date_time">Rental Start Date & Time</label>
                             <input type="datetime-local" class="form-control" id="rental_start_date_time" name = "rental_start_date_time" required>
@@ -145,22 +146,7 @@
     </body>
     <script>
        document.getElementById("email").value = sessionStorage.getItem("email");
-      function getValues(){
-        var values = document.getElementById('').value;
-        const url = ``;
-        axios.get(url)
-        .then(function (response) {
-          // handle success
-          console.log(response.data);
-          document.getElementById("").innerHTML = "";
-          document.getElementById("").innerHTML = "";
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error.response)
-          console.log(error);
-        })
-      }
+      
 
   function create_request(){
     var capacity_of_transport = document.getElementById("capacity_of_transport").value;
@@ -169,12 +155,19 @@
     var destination_location = document.getElementById("destination_location").value;
     var origin_location = document.getElementById("origin_location").value;
     var rental_start_date_time = document.getElementById("rental_start_date_time").value;
+    var rental_end_date_time = document.getElementById("rental_end_date_time").value;
     var special_request = document.getElementById("special_request").value;
     var email = sessionStorage.getItem("email");
-    var date = new Date();
+    var today = new Date();
+    var datestr =today.toISOString().slice(0, 10);
+    var timestr =today.toISOString().slice(11, 16);
+    rental_start_date_time = rental_start_date_time.replace("T", " ");
+    rental_end_date_time = rental_end_date_time.replace("T", " ");
+
+    
 
     var obj = new Object();
-    obj.date = date;
+    obj.request_open_date_time = datestr + " " + timestr;
     obj.email = email;
     obj.capacity_of_transport = capacity_of_transport;
     obj.equipment_volume = equipment_volume;
@@ -182,19 +175,22 @@
     obj.destination_location = destination_location;
     obj.origin_location = origin_location;
     obj.rental_start_date_time = rental_start_date_time;
+    obj.rental_end_date_time = rental_end_date_time;
     obj.special_request = special_request;
+    obj.quantity = 1;
+    obj.type_of_transport = "LorryCrane";
 
-    const url = `http://localhost:8080/addrequest`;
+    const url = `addrequest`;
 
     console.log(JSON.stringify(obj));
 
     axios.post(url, obj, {headers : {
         "Content-Type" : "application/json",
         'Allow-Control-Access-Origin' : "*"
-    }})
-
-    .then((response) => {
+    }}).then((response) => {
     console.log(response);
+    alert("Request successfully created!");
+    window.location.replace("/userHome");
     }, (error) => {
     console.log(error);
     });
