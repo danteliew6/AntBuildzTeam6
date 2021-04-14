@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.json.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -111,6 +113,23 @@ public class LoginController {
         ArrayList<User> userList = new ArrayList<>();
         for (User user: users) userList.add(user);
         return userList;
+    }
+
+    @GetMapping("/getunverified")
+    public ArrayList<User> getUnverifiedUsers(){
+        ArrayList<User> users = userRepository.findAllUnverified();
+        return users;
+    }
+
+    @PostMapping("/verifyuser")
+    public boolean verifyUser(@RequestBody String jsonString){
+        /*
+        {
+            "user_email":"haha@gmail.com"
+        }
+         */
+        JSONObject jsonObject = new JSONObject(jsonString);
+        return userRepository.verifyUser(jsonObject.getString("user_email")) > 0;
     }
 
 

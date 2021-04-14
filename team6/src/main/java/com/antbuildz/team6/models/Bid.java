@@ -98,6 +98,7 @@ public class Bid {
         bidDetails.put("request",  request.getId());
         bidDetails.put("partner" , partner.getEmail());
         bidDetails.put("price" , price);
+        bidDetails.put("id", id);
         return bidDetails;
     }
 }
