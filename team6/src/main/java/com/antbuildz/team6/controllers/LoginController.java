@@ -85,15 +85,15 @@ public class LoginController {
         Optional<User> user = userRepository.findById(jsonObject.getString("email"));
         Optional<Partner> partnerOptional = partnerRepository.findById(jsonObject.getString("email"));
 
-        if (user.isPresent()) {
-            User existingUser = user.get();
-            if (existingUser.getPassword().equals(jsonObject.getString("password")) && existingUser.isVerified()) {
-                return "user";
-            }
-        } else if (partnerOptional.isPresent()){
+        if (partnerOptional.isPresent()) {
             Partner existingPartner = partnerOptional.get();
             if (existingPartner.getPassword().equals(jsonObject.getString("password")) && existingPartner.isVerified()) {
                 return "partner";
+            }
+        } else if (user.isPresent()){
+            User existingUser = user.get();
+            if (existingUser.getPassword().equals(jsonObject.getString("password")) && existingUser.isVerified()) {
+                return "user";
             }
         } else {
             throw new ResponseStatusException(

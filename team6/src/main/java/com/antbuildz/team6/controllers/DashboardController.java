@@ -140,5 +140,9 @@ public class DashboardController {
         return "selectBid";
     }
 
+    @GetMapping("/admin")
+    public String adminPage(Model model) {
+        return "admin";
+    }
 
 }
