@@ -119,6 +119,13 @@ public class CreateRequestController {
 
     @PostMapping("/selectbid")
     public boolean selectBid(@RequestBody String jsonString) {
+        /*
+        {
+            "request_id":1,
+            "bid_id":1
+        }
+         */
+
         JSONObject jsonObject = new JSONObject(jsonString);
         Optional<Request> request = requestRepository.findById(jsonObject.getInt("request_id"));
         Optional<Bid> bid = bidRepository.findById(jsonObject.getInt("bid_id"));
@@ -189,6 +196,24 @@ public class CreateRequestController {
             jsonData.put(i++, req.getRequestDetails());
         }
         return jsonData;
+    }
+
+    // view the requests for a specifc user
+    @PostMapping("/viewmyrequest")
+    public Map<Integer,Object> viewUserRequest(@RequestBody String jsonString){
+        /*
+        {
+            "user_email": "haha@gmail.com"
+        }
+         */
+        Map<Integer,Object> requestDetails = new HashMap<>();
+        JSONObject jsonObject = new JSONObject(jsonString);
+        ArrayList<Request> myRequests = requestRepository.findOpenByEmail(jsonObject.getString("user_email"));
+        Integer i = 1;
+        for (Request req : myRequests){
+            requestDetails.put(i++, req.getRequestDetails());
+        }
+        return requestDetails;
     }
 
 
