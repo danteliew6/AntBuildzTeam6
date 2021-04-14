@@ -111,11 +111,34 @@ public class DashboardController {
         return "signup";
     }
 
-    @GetMapping("/create_request")
+    @GetMapping("/create_Request")
     public String createRequestPage(Model model){ return "createRequest";}
 
+    @GetMapping("/userHome")
+    public String userHomePage(Model model){ return "userHome";}
 
+    @GetMapping("/partnerHome")
+    public String partnerHomePage(Model model){ return "partnerHome";}
 
+    @GetMapping("/result")
+    public String resultPage(Model model) {
+        return "result";
+    }
+
+    @GetMapping("/logout")
+    public String logOutPage(Model model) {
+        return "logout";
+    }
+
+    @GetMapping("/placeBid")
+    public String placeBidPage(Model model) {
+        return "placeBid";
+    }
+
+    @GetMapping("/selectBid")
+    public String selectBidPage(Model model) {
+        return "selectBid";
+    }
 
 
 }

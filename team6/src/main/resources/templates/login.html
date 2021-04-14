@@ -26,7 +26,7 @@
 
 <nav class="navbar navbar-dark bg-warning">
     <a class="navbar-brand" href="#">
-      <img src="../images/antbuildz.png" width="200" height="30" alt="">
+      <img src="/antbuildz.png" width="200" height="30" alt="">
     </a>
     <form class="form-inline my-2 my-lg-0" method = "POST" th:action="@{/index}" th:object = "${user}" modelAttribute = "credentials">
         <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username" name = "email" id = "login_email">
@@ -37,7 +37,7 @@
 <body>
         <div class="row">
             <div class="col-sm-6">
-                <img src="../images/construction.jpeg" class = "img-responsive" style="float:left"  width = "100%" alt="construction">
+                <img src="/construction.jpeg" class = "img-responsive" style="float:left"  width = "100%" alt="construction">
             </div>
             <div class="col-sm-6 justify-content-center">
                 <h1 class="text-justify text-center" style="margin-top: 120px; padding:20px">Register for a USER account today!</h1>
@@ -66,7 +66,7 @@
                         <button type="button" class="btn btn-primary btn-block" onclick = "sign_up()">Sign up</button>
                         </div>
                     </form>
-                    <div class = "container mt-5">To sign up as a partner, <a href = "./signup.html">Click Here</a></div>
+                    <div class = "container mt-5">To sign up as a partner, <a href = "/signup">Click Here</a></div>
                 </div>
             </div>
         </div>
@@ -139,10 +139,10 @@
             .then((response) => {
                 if (response){
                    
-                   if (response["data"] == "user"){
-                    window.location.replace("./userHome.html");
+                   if (response["data"] == "User"){
+                    window.location.replace("/userHome");
                    } else {
-                    window.location.replace("./partnerHome.html");
+                    window.location.replace("/partnerHome");
                    }
                    
 

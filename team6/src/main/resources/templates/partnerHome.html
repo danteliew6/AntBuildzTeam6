@@ -26,10 +26,10 @@
 
     
 
-    <body onload = "view_requests();view_bids()">
+    <body onload = "view_requests();">
         <nav class="navbar navbar-dark bg-warning">
             <a class="navbar-brand" href="#">
-              <img src="../static/antbuildz.png" width="200" height="30" alt="">
+              <img src="/antbuildz.png" width="200" height="30" alt="">
             </a>
           </nav>
           
@@ -99,10 +99,10 @@
         <body>
         <div class="main">
             <div class="sidenav">       
-                <a href="./partnerHome.html">Home</a>
-                <a href="./equipment.html">Equipment</a>
-                <a href="./result.html">Result</a>
-                <a href="./login.html">Sign Out</a>   
+                <a href="/partnerHome">Home</a>
+                <a href="/equipment">Equipment</a>
+                <a href="/result">Result</a>
+                <a href="/logout">Sign Out</a>  
             </div>
             
         <div class="container">
@@ -146,10 +146,11 @@
               for ( i = 1; i <= Object.keys(requests).length; i ++){
 
                 var transport_needed = requests[i]["typeOfTransport"]
-
+                
                 var special_string = ``
 
-                var request_id = i
+                var request_id = requests[i]["request_id"];
+                console.log(request_id)
 
                 var start = requests[i]["rentalStartDateTime"]
                 var start_date = new Date(start)
@@ -187,7 +188,7 @@
                                 <p class="card-text">Equipment weight: ${equipment_weight}</p>  
                                 ${special_string}
                                 
-                                <button class="btn btn-primary" onclick = "process_bid_request(${i})">Place Bid</button>  
+                                <button class="btn btn-primary" onclick = "process_bid_request(${request_id})">Place Bid</button>  
                                 
                             </div>`
 
@@ -201,36 +202,36 @@
         //   
         }
 
-      function process_bid_request(request_id, start_location, end_location){
+      function process_bid_request(request_id){
                 
             sessionStorage.setItem("request_id", request_id);
-            window.location.replace("./placeBid.html");
+            window.location.replace("/placeBid");
 
         };
     
 
-      function view_bids(){
-          email = sessionStorage.getItem("email");
-          const url = "http://localhost:8080/viewmybids";
+    //   function view_bids(){
+    //       email = sessionStorage.getItem("email");
+    //       const url = "http://localhost:8080/viewmybids";
 
-          var obj = new Object();
-          obj.partner_email = email;
+    //       var obj = new Object();
+    //       obj.partner_email = email;
 
   
-          axios.post(url, obj)
-            .then((response) => {
+    //       axios.post(url, obj)
+    //         .then((response) => {
             
-            var bids = response.data.bids;
+    //         var bids = response.data.bids;
 
-            for (each in bids){
-                console.log(bids[each]);
-                request_id = bids[each]["request"]
-                console.log(request_id)
-            }
+    //         for (each in bids){
+    //             console.log(bids[each]);
+    //             request_id = bids[each]["request"]
+    //             console.log(request_id)
+    //         }
 
-            }, (error) => {
-            console.log(error);
-            });
-      }
+    //         }, (error) => {
+    //         console.log(error);
+    //         });
+    //   }
     </script>
 </html>
