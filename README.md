@@ -1,7 +1,7 @@
 # AntBuildzHeroku
-# AntBuildz Team 6 Closed Bidding System
+## AntBuildz Team 6 Closed Bidding System
 
-# How to deploy:
+### How to deploy:
 1. Create a GitHub repository and copy the all the folders from this repository there.
 2. Open up application.properties under src/main/resources
 3. Replace the following details with your chosen MySQL database details:
