@@ -150,6 +150,10 @@ public class DashboardController {
         return "successreg";
     }
 
+    @GetMapping("/equipment")
+    public String equipmentPage(Model model) {
+        return "equipment";
+    }
 
 
 }
