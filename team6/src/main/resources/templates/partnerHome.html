@@ -139,6 +139,7 @@
         const url = "http://localhost:8080/allopenrequests"
         axios.get(url)
             .then(function (response) {
+              console.log(response);
               requests = response.data
 
 

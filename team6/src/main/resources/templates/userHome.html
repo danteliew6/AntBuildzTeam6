@@ -15,7 +15,7 @@
 
         
 
-        <title>Partner Home Page</title>
+        <title>User Home Page</title>
         <style>
             .navbar {
                 z-index: 1;
@@ -68,7 +68,7 @@
 
     
 
-    <body>
+    <body onload = "view_bids()">
         <div class="sidenav">       
             <a href="#about">Home</a>
             <a href="./createRequest.html">Create a Request</a>
@@ -81,108 +81,101 @@
             </a>
           </nav>
           <div class="main">
-        <div class="container">
-            <div class ="row">
-            <div class ="col">
-
-            </div>
-
-            <div class ="col-11 bg-light" id="bids-opened">
-                <h2>Bids Opened</h2>
-                <div class="card-deck" >
-
-                    <div class="card text-center" th:each = "request : ${requests}">
-                    <div class="card-header" >Time Left</div>
-                      <img class="card-img-top" src="../static/1.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body text-center">
-                        <h5 class="card-title1" th:text = "${request.getOriginLocation()}"></h5>
-                        <p class="card-text" th:text = "${request.getDestinationLocation()}"></p>
-                    </div>
-                        <div class="card-footer">
-                            <button href="#" class="btn btn-primary" onclick="process_selection()" id = "1" value = "Company1">Modifiy Details</button>  
-                        </div>  
-                    </div>
-
-                    <div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                      <img class="card-img-top" src="../static/2.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body">
-                        <h5 class="card-title">Company Name</h5>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>         
-                      </div>
-                      <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Modifiy Details</a>  
-                        </div>  
-                    </div>
-
-                    <div class="card text-center">
-                    <div class="card-header">Time Left</div>
-                      <img class="card-img-top" src="../static/3.jpg" alt="Card image cap" style="max-height: 18rem;">
-                      <div class="card-body">
-                        <h5 class="card-title">Company Name</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>    
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Modifiy Details</a>  
-                    </div>  
-                    </div>
-
-                  </div>
-            </div>
-            </div>
-            <div class ="row">
-                <div class ="col">
+        
+            <div class="container">
+                <div class ="row">
     
-                </div>
-    
-                <div class ="col-11 bg-light" id="bids-placed">
-                    <h2>Past Bids</h2>
-                    <div class="card-deck">
-    
-                        <div class="card text-center" id = "first">
-                        <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/1.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body text-center">
-                            <h5 class="card-title1">Company Name 1</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>  
-                        </div>
-                            <div class="card-footer">
-                                <button href="#" class="btn btn-primary" onclick="process_selection()" id = "1" value = "Company1">Modifiy Details</button>  
-                            </div>  
-                        </div>
-    
-                        <div class="card text-center">
-                            <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/2.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body">
-                            <h5 class="card-title">Company Name</h5>
-                            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>         
+                    <div class ="col-11" id = "box">
+                        <h2>Pending bids for requests</h2>
+                        <div class="card-columns" id="bids">
+        
+            
+        
                           </div>
-                          <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Modifiy Details</a>  
-                            </div>  
-                        </div>
-                        <div class="card text-center">
-                        <div class="card-header">Time Left</div>
-                          <img class="card-img-top" src="../static/3.jpg" alt="Card image cap" style="max-height: 18rem;">
-                          <div class="card-body">
-                            <h5 class="card-title">Company Name</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>    
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Modifiy Details</a>  
-                        </div>  
-                        </div>
-    
-                      </div>
+                    </div>
                 </div>
-                </div>
+            
 
-        </div>
+        
           </div>
     </body>
 
 <script>
+
+    
+
+    function view_bids(){
+
+         
+          email = sessionStorage.getItem("email");
+          console.log(email);
+          const url1 = "http://localhost:8080/viewmyrequest";
+
+          var obj = new Object();
+          obj.user_email = email;
+
+  
+          axios.post(url1, obj)
+            .then((response) => {
+            
+                for (each in response.data){
+
+                    var request_id = response.data[each]["request_id"];
+                    console.log(request_id);
+                    view_all_bids(request_id);
+                }
+
+            
+
+            }, (error) => {
+            console.log(error);
+            });
+      
+
+
+     
+        
+        //   
+        }
+
+        function view_all_bids(request_id){
+            const url2 = "http://localhost:8080/viewrequest/" + request_id;
+        
+            axios.get(url2)
+                .then(function (response) {
+                    console.log(response)
+                    // for (each in bids){
+                    //     var price = bids[each]["price"]
+                    //     var bid_id = bids[each]["bid"]
+                    //     console.log(price)
+
+                    //     var str = ` <div class="card text-center">
+                    //                 <div class="card-body">
+                    //                 <h5 class="card-title">Bid for ${bid_id}</h5>
+                                    
+                    //                 <p class="card-text">Equipment weight: </p>  
+
+                                    
+                                  
+                    //             </div>`
+
+                    // document.getElementById("bids").innerHTML += str;   
+
+                    // }
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
+        }
+
+        //   
+            
+        
+        
+
+    
+
+
     
 </script>
 </html>
