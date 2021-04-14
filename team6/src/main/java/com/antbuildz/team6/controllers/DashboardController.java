@@ -130,6 +130,9 @@ public class DashboardController {
         return "logout";
     }
 
-
+    @GetMapping("/admin")
+    public String adminPage(Model model) {
+        return "admin";
+    }
 
 }
