@@ -18,4 +18,7 @@ public interface RequestRepository extends CrudRepository<Request,Integer> {
     @Query("SELECT r FROM Request r WHERE user_email = LOWER(:email) order by request_open_date_time desc")
     ArrayList<Request> findOpenByEmail(@Param("email") String email);
 
+    @Query("SELECT r FROM Request r WHERE user_email = LOWER(:email) AND accepted_bid_id IS NOT NULL order by request_open_date_time desc")
+    ArrayList<Request> findCloseByEmail(@Param("email") String email);
+
 }
