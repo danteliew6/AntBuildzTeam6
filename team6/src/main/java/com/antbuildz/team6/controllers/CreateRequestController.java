@@ -245,4 +245,21 @@ public class CreateRequestController {
         return requestDetails;
 
     }
+
+    @PostMapping("/getmyclosedrequests")
+    public Map<Integer, Object> getUserClosedRequests(@RequestBody String userDetails){
+        /*
+        {
+            "user_email":"haha@gmail.com"
+        }
+         */
+        JSONObject jsonData = new JSONObject(userDetails);
+        Map<Integer,Object> myClosedRequests = new HashMap<>();
+        ArrayList<Request> myReq = requestRepository.findCloseByEmail(jsonData.getString("user_email"));
+        int counter = 1;
+        for(Request r : myReq){
+            myClosedRequests.put(counter++, r.getRequestDetails());
+        }
+        return myClosedRequests;
+    }
 }
