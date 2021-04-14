@@ -64,14 +64,12 @@
         height: auto;
         width: auto;
     }
-      
 </style>
 
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
-
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
     <a class="navbar-brand" href="#">
@@ -101,7 +99,9 @@
         <a href="/result">Result</a>           
         <a href="/logout">Sign Out</a>    
     </div>
+
     <div class="main">
+        <div id="resultstatus">
         <div class="text-center">
             <h1 class="m-5">
                 Winning Bid
@@ -112,17 +112,6 @@
         </div>
         <div class="container p-5">
             <div class="row">
-                <div class="col-lg p-3">
-                        <div class="card" style="width: 500px; height: auto">
-                            <img class="card-img-top" src="/construction.jpeg" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title" id="company">Company</h5>
-                                <p class="card-text" id="companydetails">ABC Construction Pte Ltd is a company that rents and delivers various construction equipment to you.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-lg p-3">
                     <div class="card" style="width: 500px; height: 800px">
                         <div class="card-body">
                                 <h3>Route Taken</h3>
@@ -139,40 +128,105 @@
                             <h5 class="card-title mb-3" id="destination">Destination Location: Singapore</h5>
                             <p class="card-text" id="distance">Distance :</p>
                             <p class="card-text" id="price">Price :</p>
+                            <p class="card-text" id="requestDetails"></p>
                             <button id="getdistance">Get distance and price</button>
                         </div>
-                    </div>
                 </div>
-            </div>
             
         </div>
+        <div class="m-5 text-center" id="winningbid">Here is the price of the winning bid</div>
     </div>
+</div> 
 </body>
 
-
 <script>
-
     function goToSignUp(){
         window.location.replace("/signup")
     }
 
-    window.onload = view_result;
-    window.onload = getDirections;
+    window.onload = getMyRequest();
+    window.onload = getWinningBid();
+    window.onload = getWinningBidDetails();
+    window.onload = getDirections();
+    
 
     document.getElementById("getdistance").addEventListener("click", retrieve_distance);
-    
+
+    function getMyRequest() { 
+        const url = "/request/1" //+ requestId; //+ sessionStorage.getItem("request_id");
+        
+        axios.get(url)
+            .then(function (response) {
+                console.log(response);  
+                response = response["data"] 
+                var origin_location = response["originLocation"]
+                var destination_location = response["destinationLocation"]
+
+                var special_request = response["specialRequest"]
+                var equipment_volume = response["equipmentVolume"]
+                var equipment_weight = response["equipmentWeight"]
+                var accepted_bid_id = response["acceptedBid"]
+                console.log(response["originLocation"]);
+                console.log(response["originLocation"]);
+                
+                document.getElementById("origin").innerHTML += origin_location;  
+                document.getElementById("destination").innerHTML += destination_location; 
+
+                var str =                
+                `<p>Equipment volume: ${equipment_volume}</p>
+                <p>Equipment weight: ${equipment_weight}</p>`
+
+                document.getElementById("requestDetails").innerHTML += str;
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+        }
+    var winningBidId = -1;
+
+    function getWinningBid() { 
+        const url = "/request/1" //+ requestId;
+        axios.get(url)
+            .then(function (response) {
+                
+                if (response["acceptedBid"] != null) {
+                    winningBidId = response["acceptedBid"];
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function getWinningBidDetails(winningBidId){
+        if (winningBidId != -1) {
+            const url = "/viewbid/" + winningBidId;
+            axios.get(url)
+                .then(function (response) {
+                    request = response.data["request"]
+                    var price = request["price"]
+                    var partner_email = request["partner_email"]
+                    document.getElementById("resultbid").innerHTML = `Here is the winning bid! Price: ${price} Email: ${email}`;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
+
     // Plots origin and destination on google map visualisation
     function getDirections() {
         event.preventDefault();
         document.getElementById('map').innerHTML = "";
-
+        
         queries = {
             // origin: document.getElementById('origin').value,
             // destination: document.getElementById('destination').value,
-
             // Still hardcoded for now, need to retrieve data from database
-            origin: "Toa Payoh", //origin_location
-            destination : "Bishan", // destination_location
+            origin: document.getElementById("origin_location").innerHTML, //origin_location
+            destination : document.getElementById("destination_location").innerHTML, // destination_location
             region: 'SG',
             travelMode: 'DRIVING'
         };
@@ -216,27 +270,27 @@
     }
 
     // Retrieves data from database and displays
-    function view_result(){   
-        // no url yet, fake url
-        const url = "http://localhost:8080/XXXXX"
-        axios.get(url)
-            .then(function (response) {
-                requests = response.data
+    // function view_result(){   
+    //     // no url yet, fake url
+    //     const url = "http://localhost:8080/XXXXX"
+    //     axios.get(url)
+    //         .then(function (response) {
+    //             requests = response.data
                 
-                // no data yet, fake data
-                var company = requests["company"]
-                var origin_location = requests["originLocation"]
-                var destination_location = requests["destinationLocation"]
+    //             // no data yet, fake data
+    //             var company = requests["company"]
+    //             var origin_location = requests["originLocation"]
+    //             var destination_location = requests["destinationLocation"]
                 
-                document.getElementById("company").innerHTML += company;
-                document.getElementById("origin").innerHTML += origin_location;  
-                document.getElementById("destination").innerHTML += destination_location; 
+    //             document.getElementById("company").innerHTML += company;
+    //             document.getElementById("origin").innerHTML += origin_location;  
+    //             document.getElementById("destination").innerHTML += destination_location; 
 
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-    }
+    //         })
+    //         .catch(function (error) {
+    //           console.log(error);
+    //         });
+    // }
 
     // Sends origin and destination to google maps api and receives distance / price
      function retrieve_distance(){   
@@ -292,6 +346,5 @@
 //    ],
 //    "status" : "OK"
 // }
-
 </script>
 </html>

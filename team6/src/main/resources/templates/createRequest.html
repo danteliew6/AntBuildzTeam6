@@ -160,27 +160,24 @@
     var rental_end_date_time = document.getElementById("rental_end_date_time").value;
     var special_request = document.getElementById("special_request").value;
     var email = sessionStorage.getItem("email");
+
+
     var today = new Date();
     var datestr =today.toISOString().slice(0, 10);
     var timestr =today.toISOString().slice(11, 16);
-    rental_start_date_time = rental_start_date_time.replace("T", " ");
-    rental_end_date_time = rental_end_date_time.replace("T", " ");
 
-    
 
     var obj = new Object();
-    var datestr =date.toISOString().slice(0, 10);
-    var timestr =date.toISOString().slice(11, 16);
 
 
-    var datestr1 =String(rental_start_date_time).slice(0, 10);
+    var datestr1 =rental_start_date_time.slice(0, 10);
     var timestr1 =rental_start_date_time.slice(11, 16);
 
     var datestr2 =rental_end_date_time.slice(0, 10);
     var timestr2 =rental_end_date_time.slice(11, 16);
     
     obj.request_open_date_time = datestr + " " + timestr;
-    obj.email = email;
+    obj.email = email; 
     obj.capacity_of_transport = capacity_of_transport;
     obj.equipment_volume = equipment_volume;
     obj.equipment_weight = equipment_weight;
