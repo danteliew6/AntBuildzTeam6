@@ -155,5 +155,10 @@ public class DashboardController {
         return "equipment";
     }
 
+    @GetMapping("/requestresult")
+    public String requestresult(Model model) {
+        return "requestresult";
+    }
+
 
 }
