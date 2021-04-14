@@ -88,7 +88,7 @@ public class ViewBidController {
         Map<Integer, Object> acceptedBids = new HashMap<>();
         JSONObject jsonObject = new JSONObject(partnerDetails);
         ArrayList<Bid> myAcceptedBids = bidRepository.findMyAcceptedBids(jsonObject.getString("partner_email"));
-        int counter = 0;
+        int counter = 1;
         for(Bid b : myAcceptedBids){
             acceptedBids.put(counter++, b.getBidDetails());
         }
