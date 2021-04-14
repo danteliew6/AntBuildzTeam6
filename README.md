@@ -1,4 +1,4 @@
-# AntBuildzHeroku
+# AntBuildzTeam6
 ## AntBuildz Team 6 Closed Bidding System
 
 ### How to deploy:
