@@ -26,7 +26,7 @@
 
     
 
-    <body onload = "view_requests();">
+    <body onload = "view_requests();view_won_bids()">
         <nav class="navbar navbar-dark bg-warning">
             <a class="navbar-brand" href="#">
               <img src="/antbuildz.png" width="200" height="30" alt="">
@@ -105,15 +105,16 @@
             </div>
             
         <div class="container">
+            
             <div class ="row">
-
+                
                 <div class ="col-11" id = "box">
-                    <h2>Current placed bids</h2>
-                    <div class="card-columns" id="existing-bids">
-    
-        
-    
+                    <h2>Won Bids</h2>
+                    <div id = "if_won">
+         
+                    <div class="card-columns" id="won-bids">
                       </div>
+                    </div>
                 </div>
             </div>
 
@@ -138,7 +139,6 @@
         const url = "http://localhost:8080/allopenrequests"
         axios.get(url)
             .then(function (response) {
-              console.log(response);
               requests = response.data
 
 
@@ -175,7 +175,6 @@
                     special_string += `<p class="card-text">Special request: ${special_request}</p>`
                 }
 
-                console.log(transport_needed, start_time)
 
                 var str = ` <div class="card text-center">
                                 <div class="card-header">${transport_needed} needed</div>
@@ -208,28 +207,52 @@
         };
     
 
-    //   function view_bids(){
-    //       email = sessionStorage.getItem("email");
-    //       const url = "http://localhost:8080/viewmybids";
+      function view_won_bids(){
+            email = sessionStorage.getItem("email");
+            var obj = new Object();
+            obj.partner_email = email;
+            const url = `http://localhost:8080/viewmyacceptedbids`
 
-    //       var obj = new Object();
-    //       obj.partner_email = email;
+            axios.post(url, obj)
 
-  
-    //       axios.post(url, obj)
-    //         .then((response) => {
-            
-    //         var bids = response.data.bids;
+            .then((response) => {
 
-    //         for (each in bids){
-    //             console.log(bids[each]);
-    //             request_id = bids[each]["request"]
-    //             console.log(request_id)
-    //         }
+                
+                console.log(response.data)
 
-    //         }, (error) => {
-    //         console.log(error);
-    //         });
-    //   }
+                    for (each in response.data){
+                        console.log(response.data[each])
+                        request_id = response.data[each]["request"]
+
+                        won_bid_details(request_id);
+
+
+                        var str = '';
+                        str = ` <div class="card text-center">
+                                <div class="card-body">
+                                <h5 class="card-title">Bid won for request ${request_id}</h5>
+
+                                <p class="card-text">Details of request</p>  
+                                
+                            </div>`
+
+                        document.getElementById("won-bids").innerHTML += str;
+
+
+                    }  
+
+
+            }, (error) => {
+                
+                console.log(error);
+            });
+
+      }
+      
+      function won_bid_details(request_id){
+         
+      }
+
+      
     </script>
 </html>
