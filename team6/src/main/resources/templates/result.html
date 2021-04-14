@@ -73,7 +73,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
     <a class="navbar-brand" href="#">
-      <img src="../images/antbuildz.png" width="200" height="30" alt="">
+      <img src="/antbuildz.png" width="200" height="30" alt="">
     </a>
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -134,9 +134,15 @@
                 </div>
             
         </div>
-        <div class="m-5 text-center" id="winningbid">Here is the price of the winning bid</div>
     </div>
 </div> 
+
+<div id="test">
+    <h1>These are the closed Bids</h1>
+    <div class="card-deck" id="testappend">
+      </div>
+</div>
+
 </body>
 
 <script>
@@ -144,16 +150,116 @@
         window.location.replace("/signup")
     }
 
-    window.onload = getMyRequest();
-    window.onload = getWinningBid();
-    window.onload = getWinningBidDetails();
-    window.onload = getDirections();
+    //window.onload = getMyRequest();
+    //window.onload = getWinningBid();
+    //window.onload = getWinningBidDetails();
+    //window.onload = getDirections();
     
+
+    getClosed();
+    function getClosed(){
+        var URL ='http://localhost:8080/getmyclosedrequests';
+
+        var obj = new Object();
+        //obj.user_email = sessionStorage.getItem('email');
+        obj.user_email = 'xx@gmail.com';
+        //console.log(obj);
+        axios.post(URL, obj)
+          .then(function (response) {
+            //console.log(response);
+            var data = response['data'];
+            //console.log(response['data']);
+
+            for( var results in data){
+                console.log(data[results])
+                var displaylocation = data[results]['request_id']; // this will become the id of the tag
+                var origin = data[results]['originLocation'];
+                var dest = data[results]['destinationLocation'];
+                var startTime = data[results]['rentalStartDateTime'];
+                var endTime = data[results]['rentalEndDateTime'];
+                console.log(origin);
+                var newString =
+                `<div class="card">
+                        <div class="card-body">
+                            <h3>For Request Id ${displaylocation}</h3>
+                            <div id=${displaylocation}></div>
+                            <div class="card-body">
+                            <h5 class="card-title mb-3" id="origin">Origin Location: ${origin}</h5>
+                            <h5 class="card-title mb-3" id="destination">Destination Location: ${dest}</h5>
+                            </div>
+                            <button type="button" class="btn btn-danger" id="routeBTN" onclick="viewMap(${displaylocation})">Reroute</button>
+                        </div>
+                </div>`;
+                document.getElementById('testappend').innerHTML+= newString;
+            }
+          })
+          .catch(function (error)
+          {
+              console.log(error)
+          })
+
+    }
+
+
+    function viewMap(id){
+        sessionStorage.setItem('request_id',id);
+        window.location.replace("/requestresult");
+    }
+
+    function getDirectionsBetter(origin, destination, displaylocation) {
+        event.preventDefault();
+        document.getElementById(displaylocation).innerHTML = "";
+        
+        queries = {
+            // origin: document.getElementById('origin').value,
+            // destination: document.getElementById('destination').value,
+            // Still hardcoded for now, need to retrieve data from database
+            origin: origin, //origin_location
+            destination : destination, // destination_location
+            region: 'SG',
+            travelMode: 'DRIVING'
+        };
+        //const proxyurl = "https://cors-anywhere.herokuapp.com/"
+        var url = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic&callback=initMap";
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                initMap();
+            }
+        }
+        request.open('GET',`${url}`, true);
+        request.send();
+    }
+
+    function retrieve_distance_Better(origin, dest){   
+        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
+
+        //hardcoded locations, need to retrieve real locations from data
+        url += "origins=Singapore+"+origin //" + origin;
+        url += "&destinations=Singapore+"+dest //" + destination;
+        url += "&avoid=indoor";
+        url += "&key=AIzaSyB7cotLdg-POVfNJD7AqHuB4m2Wi-Styic";
+        axios.get(url)
+            .then(function (response) {
+                requests = response.data
+                var distance = requests["rows"][0]["elements"][0]["distance"]["text"];
+                console.log(distance);
+                document.getElementById("distance").innerHTML= "Distance: " + distance;
+                document.getElementById("price").innerHTML= "Price: $" + parseInt(distance) * 3 ;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+
 
     document.getElementById("getdistance").addEventListener("click", retrieve_distance);
 
     function getMyRequest() { 
-        const url = "/request/1" //+ requestId; //+ sessionStorage.getItem("request_id");
+        const url = "request/1" //+ requestId; //+ sessionStorage.getItem("request_id");
         
         axios.get(url)
             .then(function (response) {
@@ -187,7 +293,7 @@
     var winningBidId = -1;
 
     function getWinningBid() { 
-        const url = "/request/1" //+ requestId;
+        const url = "request/1" //+ requestId;
         axios.get(url)
             .then(function (response) {
                 
@@ -202,7 +308,7 @@
 
     function getWinningBidDetails(winningBidId){
         if (winningBidId != -1) {
-            const url = "/viewbid/" + winningBidId;
+            const url = "viewbid/" + winningBidId;
             axios.get(url)
                 .then(function (response) {
                     request = response.data["request"]
