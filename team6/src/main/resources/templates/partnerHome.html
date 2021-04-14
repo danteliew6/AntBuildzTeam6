@@ -202,7 +202,7 @@
       function process_bid_request(request_id){
                 
             sessionStorage.setItem("request_id", request_id);
-            window.location.replace("/placebid");
+            window.location.replace("placeBid");
 
         };
     
@@ -227,17 +227,6 @@
                         won_bid_details(request_id);
 
 
-                        var str = '';
-                        str = ` <div class="card text-center">
-                                <div class="card-body">
-                                <h5 class="card-title">Bid won for request ${request_id}</h5>
-
-                                <p class="card-text">Details of request</p>  
-                                
-                            </div>`
-
-                        document.getElementById("won-bids").innerHTML += str;
-
 
                     }  
 
@@ -250,11 +239,56 @@
       }
       
       function won_bid_details(request_id){
-         const url = 'localhost:8080/request/' + request_id;
+         const url = 'http://localhost:8080/request/' + request_id;
 
          axios.get(url)
                 .then(function (response) {
-                    console.log(response)
+                    var requests = response.data
+                    console.log(special_request);
+
+                    var special_string = ``
+
+                    var transport_needed = requests["typeOfTransport"]
+                    var special_request = requests["specialRequest"]
+                    var start_location = requests["originLocation"]
+                    var end_location = requests["destinationLocation"]
+                    var equipment_volume = requests["equipmentVolume"]
+                    var equipment_weight = requests["equipmentWeight"]
+
+                    var start = requests["rentalStartDateTime"]
+                    var start_date = new Date(start)
+                    var start_year = start_date.getFullYear()
+                    var start_month = start_date.getMonth()
+                    var start_day = start_date.getDate()
+                    var start_time = start_date.toLocaleTimeString()
+                    
+                    var end = requests["rentalEndDateTime"]
+                    var end_date = new Date(end);
+                    var end_year = end_date.getFullYear()
+                    var end_month = end_date.getMonth()
+                    var end_day = end_date.getDate()
+                    var end_time = end_date.toLocaleTimeString()
+
+                    if (special_request != null){
+                    special_string += `<p class="card-text">Special request: ${special_request}</p>`
+                }
+
+                    var str = ` <div class="card text-center">
+                                <div class="card-body">
+                                <h5 class="card-title">From ${start_location} to ${end_location}</h5>
+                                <p class="card-text">Rental of equipment needed between ${start_day}/${start_month}/${start_year} at ${start_time} to ${end_day}/${end_month}/${end_year} at ${end_time}</p>  
+                                <p class="card-text">Equipment volume: ${equipment_volume}</p>
+                                <p class="card-text">Equipment weight: ${equipment_weight}</p>  
+                                ${special_string}
+                                
+                                
+                            </div>`
+
+                document.getElementById("won-bids").innerHTML += str;           
+
+
+
+                    
                 })
                 .catch(function (error) {
                 console.log(error);
