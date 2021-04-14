@@ -114,21 +114,21 @@
             axios.get(url2)
                 .then(function (response) {
                     var bid = response.data['bids'];
-                    console.log(bid.length)
+                    //console.log(bid.length)
                         
                         for (each of bid){
 
-                            console.log(each)
+                            //console.log(each)
                             var price = each["price"]
                             var request = each["request"]
                             var bid = each["id"]
-                            console.log(price)
+                            //console.log(price)
 
                             var str = ` <div class="card text-center">
                                         <div class="card-body">
                                         <h5 class="card-title">Bid for request ${request_id}</h5>
                                         
-                                        <p class="card-text">Amount bidded: ${price} </p>  
+                                        <p class="card-text">Amount bidded: $${price} </p>  
                                         <button class="btn btn-primary" onclick = "process_bid(${request}, ${bid})">Select Bid</button>  
                                         
                                         

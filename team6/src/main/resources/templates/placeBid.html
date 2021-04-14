@@ -230,7 +230,7 @@
     function retrieve_vehicle(){
         const url = `http://localhost:8080/gettransport`;
 
-        console.log(sessionStorage.getItem("email"));
+        //console.log(sessionStorage.getItem("email"));
 
         var obj = new Object()
 
@@ -240,7 +240,7 @@
         axios.post(url, obj)
         .then((response) => {
             if (response){
-                console.log(response)
+                //console.log(response)
                 for (each in response.data["Lorry Crane"]){
                     vehicle_id = response.data["Lorry Crane"][each]["serialNumber"];
                     str = `<option>${vehicle_id}</option>`
